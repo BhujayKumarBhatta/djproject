@@ -5,7 +5,10 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
+import socket
 
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the  index page.")
+    hostname = socket.gethostname()
+    ipaddr = socket.gethostbyname(hostname)
+    return HttpResponse("This Servers name is %s and Ip Address is %s " %(hostname, ipaddr))
