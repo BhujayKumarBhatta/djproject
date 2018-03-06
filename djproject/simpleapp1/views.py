@@ -11,4 +11,4 @@ import socket
 def index(request):
     hostname = socket.gethostname()
     ipaddr = socket.gethostbyname(hostname)
-    return HttpResponse("This Servers name is %s and Ip Address is %s " %(hostname, ipaddr))
+    return HttpResponse("Hostname of this Web Server  is %s and Ip Address is %s " %(hostname, ipaddr))
