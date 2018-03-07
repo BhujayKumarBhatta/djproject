@@ -38,7 +38,9 @@ def overload_cpu(request):
 #     print(psutil.cpu_percent())
 #     pool = Pool(processes)
 #     pool.map(f(1000), range(processes))
-    proc = subprocess.Popen(['/bin/sh', '/home/bhujay/x.sh', '&'], stdout=PIPE, stderr=PIPE)
+    #proc = subprocess.Popen(['/bin/sh', '/home/bhujay/x.sh'], stdout=PIPE, stderr=PIPE)
+    #proc = subprocess.Popen(['cat', '/dev/zero', '>', '/dev/null'])
+    proc = subprocess.Popen(['dd', 'if=/dev/zero', 'of=/dev/null'])
     context = {'hostname': hostname, 
                'ipaddr': ipaddr ,
                'cpu_core': cpu_count(), 
