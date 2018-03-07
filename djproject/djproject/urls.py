@@ -21,4 +21,6 @@ from simpleapp1 import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
+    url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
+    url(r'^killpid/(?P<procid>[0-9]+)/$',views.kill_load,name='kill_load'),
 ]
