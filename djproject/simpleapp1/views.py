@@ -15,12 +15,14 @@ from multiprocessing import cpu_count
 import psutil
 import time
 
+hostname = socket.gethostname()
+ipaddr = socket.gethostbyname(hostname)
 
-def index(request):
-    hostname = socket.gethostname()
-    ipaddr = socket.gethostbyname(hostname)
-    cpu_util = psutil.cpu_percent()
-    context = {'hostname': hostname, 'ipaddr': ipaddr , 'cpu_util': cpu_util}
+
+def index(request):    
+    context = {'hostname': hostname, 
+               'ipaddr': ipaddr , 
+               'cpu_util': psutil.cpu_percent()}
     #return HttpResponse("Hostname of this Web Server  is %s and Ip Address is %s " %(hostname, ipaddr))
     return render(request, 'homepage.html', context)
 
@@ -37,11 +39,19 @@ def overload_cpu(request):
 #     pool = Pool(processes)
 #     pool.map(f(1000), range(processes))
     proc = subprocess.Popen(['/bin/sh', '/home/bhujay/x.sh', '&'], stdout=PIPE, stderr=PIPE)
-    context = {'cpu_core': cpu_count(), 'cpu_util': psutil.cpu_percent(), 'process_pid': proc.pid}
+    context = {'hostname': hostname, 
+               'ipaddr': ipaddr ,
+               'cpu_core': cpu_count(), 
+               'cpu_util': psutil.cpu_percent(), 
+               'process_pid': proc.pid}
     return render(request, 'overload_cpu.html', context )
     #return HttpResponse("Will slap you ")
 #
 def kill_load(request, procid):
     p = subprocess.Popen(["kill", "-9",  procid])
-    context = {'cpu_core': cpu_count(), 'cpu_util': psutil.cpu_percent(), 'process_pid': procid}
+    context = {'hostname': hostname, 
+               'ipaddr': ipaddr ,
+               'cpu_core': cpu_count(), 
+               'cpu_util': psutil.cpu_percent(), 
+               'process_pid': procid}
     return render(request, 'killed_process.html', context )
