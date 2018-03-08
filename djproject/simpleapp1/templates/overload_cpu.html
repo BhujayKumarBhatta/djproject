@@ -1,5 +1,4 @@
 
-
 <h1> CPU load has been generated , and the current utilizatuion is as follows </h1>
 
 <table >
@@ -44,16 +43,18 @@
 	<p> {{ cpu_util }} </p> 
 </td>
 </tr> 
+{% for process_pid in process_pid_list %}
 <tr> 
 <td>
 	<p> Process PID   </p> 
 </td>
 <td>
-	<p> {{ process_pid }} </p> 
+	<p> <a href="{% url 'kill_load' process_pid  %}" > {{ process_pid }} Click here to kill this cpuload process </a> </p> 
 </td>
 <tr>
+{% endfor %}
 <td>
-<a href="{% url 'kill_load' process_pid  %}" > Click here to  refresh and Get the Job result </a>
+
 </td>
 </tr>
 </tr> 

@@ -44,14 +44,16 @@
 	<p> {{ cpu_util }} </p> 
 </td>
 </tr> 
+{% for process_pid in process_pid_list %}
 <tr> 
 <td>
-	<p> Process PID   </p> 
+	<p> CPU Load Process PID that is still running  </p> 
 </td>
 <td>
-	<p> {{ process_pid }} </p> 
+	<p> <a href="{% url 'kill_load' process_pid  %}" > {{ process_pid }} click here to kill   </a> </p> 
 </td>
-</tr> 
+<tr>
+{% endfor %}
 </table>
 <style>
    
