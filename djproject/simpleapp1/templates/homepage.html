@@ -36,7 +36,7 @@
 <div class="div-right">
 <h2> Select Laptop to be Ordered </h2>
  <div id="" style="overflow-y: scroll;width:100%">
- {{ laptop_inventory.management_f }}
+ 
     <!-- table-->
     <table>
     <th>ID</th>
@@ -45,19 +45,23 @@
     <th>Available </th>
     <th>Order Qty </th>
     <th> Select </th>
+    <form action="" method="POST" > 
+ {{ laptop_inventory.management_form }}
   {% for f in laptop_inventory %}
      {% csrf_token %}  
       
       <!-- <div>{{f.as_table}} </div>  
       -->  
-<form action="" method="POST" > 
+ 
      <tr>     
-         <td> <input id ="laptopmodelid " label = "laptopmodelid" name = "laptopmodelid"  value= {{ f.id.value}} readonly/> </td>
-         <td><input id = "laptopmodel" label = "laptopmodel" name = "laptopmodel"  value= {{ f.laptopmodel.value}} readonly/> </td>
-         <td><input id = "totalstock" label = "totalstock"  name = "totalstock"  value= {{ f.totalstock.value}} readonly/></td>
-         <td> <input id = "currentstock" label = "currentstock"  name = "currentstock"  value= {{ f.currentstock.value}} readonly/></td>
+         <td> <input id ="laptopmodelid " label = "laptopmodelid" name = "laptopmodelid"  value= {{ f.id.value }} readonly/> </td>
+         <td><input id = "laptopmodel" label = "laptopmodel" name = "laptopmodel"  value= {{ f.laptopmodel.value }} readonly/> </td>
+         <td><input id = "totalstock" label = "totalstock"  name = "totalstock"  value= {{ f.totalstock.value }} readonly/></td>
+         <td> <input id = "currentstock" label = "currentstock"  name = "currentstock"  value= {{ f.currentstock.value }} readonly/></td>
          <td><input id ="qty"  label = "qty" name= "qty" 	type ="number" value = "0" /></td>
-         <td>{{ f.selected}}</td>
+         <!--td><input name = "selected[]" type = "checkbox"  value = {{ f.selected }} ></td-->
+         <td><input name = "selected"  value = {{ f.selected }} ></td>
+         
      </tr>
      
   {% endfor %}

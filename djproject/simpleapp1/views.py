@@ -16,24 +16,42 @@ import psutil
 import time
 from django.template.defaultfilters import join
 
-from simpleapp1.forms import LaptopForm
+from simpleapp1.forms import LaptopForm, OrderForm
 from models import Laptop, Order
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
 process_pid_list = []
-
+ctag = []
 def index(request):   
     hostname = socket.gethostname()
     ipaddr = socket.gethostbyname(hostname)
     FormSetLaptop=modelformset_factory(Laptop,LaptopForm,extra=0)
     if request.method == 'POST':
+        selected_itmes = request.POST.getlist('selected[]')
         dtag={'laptopmodelid':request.POST.get("laptopmodelid",""),
                               'laptopmodel':request.POST.get("laptopmodel",""),
                               'totalstock':(request.POST.get("totalstock",0)),
                               'currentstock':(request.POST.get("currentstock",0)),
+                              'selected':(request.POST.get("selected",""))
                               }
-        s1= "ID:- "+ dtag['laptopmodelid']+ " Model:- "+ dtag['laptopmodel']+"  Total Stock: "+ dtag['totalstock']+ " Avilable :- "+ dtag['currentstock']
-        return HttpResponse(s1)
+        s1= ("ID:- "+ dtag['laptopmodelid']+ " Model:- "+ dtag['laptopmodel']+"  Total Stock: "+ dtag['totalstock']+ 
+        " Avilable :- "+ dtag['currentstock']+ " Item Selected : - "+dtag['selected'])
+        
+        formset = FormSetLaptop(request.POST,request.FILES)        
+        if formset.is_valid():            
+            tmpformset = formset.save(commit=False)
+            for tmpform in tmpformset:
+                    #if tmpform.selected == True:
+                        
+                        rec = {'laptopmodelid':tmpform.laptopmodelid,'laptopmodel':tmpform.laptopmodel,
+                               'totalstock':tmpform.totalstock,'currentstock':tmpform.currentstock} #'Selection_Status':tmpform.selected
+                        #rec = tmpform.ip
+                        #tmpform.save()
+                        ctag.append(rec)
+                
+            #ftag.append(ctag)  
+        
+        return HttpResponse(ctag)
     else:
         laptop_inventory = FormSetLaptop()
         
@@ -44,6 +62,25 @@ def index(request):
                }
     #return HttpResponse("Hostname of this Web Server  is %s and Ip Address is %s " %(hostname, ipaddr))
     return render(request, 'homepage.html', context)
+
+def business(request):    
+    if request.method == 'POST':
+        order_form = OrderForm(request.POST)
+        if order_form.is_valid():
+            selected_laptop = order_form.cleaned_data['laptop']
+            
+            return HttpResponse('Thanks for your order :  %s Number of  %s Laptop whose model ID is '
+                                 % (str(order_form.cleaned_data['qty']),
+                                    order_form.cleaned_data['laptop'],
+                                    
+                                   ) 
+                               )
+    else:
+        order_form = OrderForm()
+    context = {'order_form': order_form}
+    return render(request,'business.html', context)
+
+
 
 def f(x):
     while True:
