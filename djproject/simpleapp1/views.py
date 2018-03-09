@@ -74,6 +74,8 @@ def business(request):
             order_qty = int(order_form.cleaned_data['qty'])
             if  order_qty <= current_stock:
                 updated_stock = current_stock-order_qty
+                laptop_object.currentstock = updated_stock
+                laptop_object.save()
                 msg = (' %s number of %s Laptop Order has been Booked. Updated  available stock is %s '
                        % (str(order_qty),
                             lapdop_data,
