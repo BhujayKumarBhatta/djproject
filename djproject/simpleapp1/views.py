@@ -67,14 +67,29 @@ def business(request):
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
         if order_form.is_valid():
-            selected_laptop = order_form.cleaned_data['laptop']
-            
-            return HttpResponse('Thanks for your order :  %s Number of  %s Laptop whose model ID is '
-                                 % (str(order_form.cleaned_data['qty']),
-                                    order_form.cleaned_data['laptop'],
-                                    
+            lapdop_data = order_form.cleaned_data['laptop']
+            laptop_object = Laptop.objects.get(laptopmodel = lapdop_data )
+            laptop_id = laptop_object.id
+            current_stock = int(laptop_object.currentstock)
+            order_qty = int(order_form.cleaned_data['qty'])
+            if  order_qty <= current_stock:
+                updated_stock = current_stock-order_qty
+                msg = (' %s number of %s Laptop Order has been Booked. Updated  available stock is %s '
+                       % (str(order_qty),
+                            lapdop_data,
+                            str(updated_stock)                                    
                                    ) 
-                               )
+                         )
+            else:
+                 msg = ("%s  numbers of %s Laptop are not available in stock, Try different model or reduce quantity below %s" 
+                         % (str(order_qty),
+                            lapdop_data,
+                            str(current_stock)                                    
+                                   ) 
+                         )                 
+            
+            return HttpResponse(msg)                                    
+                                
     else:
         order_form = OrderForm()
     context = {'order_form': order_form}
