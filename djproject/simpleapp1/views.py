@@ -21,51 +21,8 @@ from models import Laptop, Order
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
 process_pid_list = []
-ctag = []
-def index(request):   
-    hostname = socket.gethostname()
-    ipaddr = socket.gethostbyname(hostname)
-    
-    FormSetLaptop=modelformset_factory(Laptop,LaptopForm,extra=0)
-    if request.method == 'POST':
-        selected_itmes = request.POST.getlist('selected[]')
-        dtag={'laptopmodelid':request.POST.get("laptopmodelid",""),
-                              'laptopmodel':request.POST.get("laptopmodel",""),
-                              'totalstock':(request.POST.get("totalstock",0)),
-                              'currentstock':(request.POST.get("currentstock",0)),
-                              'selected':(request.POST.get("selected",""))
-                              }
-        s1= ("ID:- "+ dtag['laptopmodelid']+ " Model:- "+ dtag['laptopmodel']+"  Total Stock: "+ dtag['totalstock']+ 
-        " Avilable :- "+ dtag['currentstock']+ " Item Selected : - "+dtag['selected'])
-        
-        formset = FormSetLaptop(request.POST,request.FILES)        
-        if formset.is_valid():            
-            tmpformset = formset.save(commit=False)
-            for tmpform in tmpformset:
-                    #if tmpform.selected == True:
-                        
-                        rec = {'laptopmodelid':tmpform.laptopmodelid,'laptopmodel':tmpform.laptopmodel,
-                               'totalstock':tmpform.totalstock,'currentstock':tmpform.currentstock} #'Selection_Status':tmpform.selected
-                        #rec = tmpform.ip
-                        #tmpform.save()
-                        ctag.append(rec)
-                
-            #ftag.append(ctag)  
-        
-        return HttpResponse(ctag)
-    else:
-        laptop_inventory = FormSetLaptop()
-        
-    context = {'hostname': hostname, 
-               'ipaddr': ipaddr , 
-               'cpu_util': psutil.cpu_percent(),
-               'laptop_inventory': laptop_inventory,
-               
-               }
-    #return HttpResponse("Hostname of this Web Server  is %s and Ip Address is %s " %(hostname, ipaddr))
-    return render(request, 'homepage.html', context)
 
-def business(request):  
+def index(request):  
     laptop_all = Laptop.objects.all()
     order_all = Order.objects.all()  
     if request.method == 'POST':
@@ -103,13 +60,19 @@ def business(request):
                             str(current_stock)                                    
                                    ) 
                          )                 
-            context = {'laptop_all': laptop_all, 'order_all': order_all, 'msg': msg}
+            context = {'laptop_all': laptop_all, 'order_all': order_all, 'msg': msg,
+                       'hostname': socket.gethostname(), 
+                       'ipaddr': socket.gethostbyname(socket.gethostname()) , 
+                       'cpu_util': psutil.cpu_percent(),}
             #return HttpResponse(msg)
             return render(request,'business.html', context)                                    
                                 
     else:
         order_form = OrderForm()
-    context = {'order_form': order_form,'laptop_all': laptop_all, 'order_all': order_all,}
+    context = {'order_form': order_form,'laptop_all': laptop_all, 'order_all': order_all,
+               'hostname': socket.gethostname(), 
+               'ipaddr': socket.gethostbyname(socket.gethostname()) , 
+               'cpu_util': psutil.cpu_percent(),}
     return render(request,'business.html', context)
 
 

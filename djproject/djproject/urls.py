@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
     url(r'^killpid/(?P<procid>[0-9]+)/$',views.kill_load,name='kill_load'),
-    url(r'^business/', views.business, name='business'),
+    #url(r'^business/', views.business, name='business'),
 ]
