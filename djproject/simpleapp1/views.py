@@ -25,6 +25,7 @@ ctag = []
 def index(request):   
     hostname = socket.gethostname()
     ipaddr = socket.gethostbyname(hostname)
+    
     FormSetLaptop=modelformset_factory(Laptop,LaptopForm,extra=0)
     if request.method == 'POST':
         selected_itmes = request.POST.getlist('selected[]')
@@ -59,11 +60,14 @@ def index(request):
                'ipaddr': ipaddr , 
                'cpu_util': psutil.cpu_percent(),
                'laptop_inventory': laptop_inventory,
+               
                }
     #return HttpResponse("Hostname of this Web Server  is %s and Ip Address is %s " %(hostname, ipaddr))
     return render(request, 'homepage.html', context)
 
-def business(request):    
+def business(request):  
+    laptop_all = Laptop.objects.all()
+    order_all = Order.objects.all()  
     if request.method == 'POST':
         order_form = OrderForm(request.POST)
         if order_form.is_valid():
@@ -72,8 +76,7 @@ def business(request):
             laptop_id = laptop_object.id
             current_stock = int(laptop_object.currentstock)
             order_qty = int(order_form.cleaned_data['qty'])
-            laptop_all = Laptop.objects.all()
-            order_all = Order.objects.all()
+            
             if  order_qty <= current_stock:
                 updated_stock = current_stock-order_qty
                 try:
@@ -106,7 +109,7 @@ def business(request):
                                 
     else:
         order_form = OrderForm()
-    context = {'order_form': order_form}
+    context = {'order_form': order_form,'laptop_all': laptop_all, 'order_all': order_all,}
     return render(request,'business.html', context)
 
 
