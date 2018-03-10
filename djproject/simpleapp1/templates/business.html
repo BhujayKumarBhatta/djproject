@@ -9,9 +9,14 @@
 </form>
 
 <br><br>
+
 <h3> Order Status : - </h3>
 <h5>{{ msg }} <h5> 
 <br><br>
+
+
+<div class="container">
+<div class="div-left">
 
 <h2> Order History</h2>
 <table>
@@ -28,7 +33,9 @@
 {% endfor %}
 </table>
 
-<br><br>
+</div>
+
+<div class="div-right">
 <h2> Inventory Status</h2>
 <table>
 <th> ModelID </th>
@@ -45,5 +52,34 @@
 </tr>
 {% endfor %}
 </table>
+</div>
+</div>
+<style>
+   
+   table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
+   td  {border:1px solid black;}
+   input {width:50;color:blue;font-size:8pt;width:60px}
+    .div-left{
+    float:left;
+    padding-left:10px;
+    margin-left:20px
+}
+.div-right{
+    float:right;
+    padding-right:10px;
+    margin-right:100px
+}
+.container{
+     
+    max-width:100%;
+    border:1px solid salmon;
+    
+    padding-top:5px;
+}
+
+.td-log {width:90%
+
+}
+   </style>
 
 
