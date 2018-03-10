@@ -72,16 +72,27 @@ def business(request):
             laptop_id = laptop_object.id
             current_stock = int(laptop_object.currentstock)
             order_qty = int(order_form.cleaned_data['qty'])
+            laptop_all = Laptop.objects.all()
+            order_all = Order.objects.all()
             if  order_qty <= current_stock:
                 updated_stock = current_stock-order_qty
-                laptop_object.currentstock = updated_stock
-                laptop_object.save()
-                msg = (' %s number of %s Laptop Order has been Booked. Updated  available stock is %s '
+                try:
+                    laptop_object.currentstock = updated_stock
+                    laptop_object.save()
+                    order_rec = Order(laptop=laptop_object, qty=order_qty)
+                    order_rec.save()
+                    order_number = order_rec.id
+                except django.db.Error as e:
+                    print (str(e))
+                    
+                msg = (' %s number of %s Laptop Order has been Booked.Your Order Number is : - %s. Updated  available stock is %s '
                        % (str(order_qty),
                             lapdop_data,
-                            str(updated_stock)                                    
-                                   ) 
-                         )
+                            str(order_number),
+                            str(updated_stock)
+                                                                
+                         ) 
+                      )
             else:
                  msg = ("%s  numbers of %s Laptop are not available in stock, Try different model or reduce quantity below %s" 
                          % (str(order_qty),
@@ -89,8 +100,9 @@ def business(request):
                             str(current_stock)                                    
                                    ) 
                          )                 
-            
-            return HttpResponse(msg)                                    
+            context = {'laptop_all': laptop_all, 'order_all': order_all, 'msg': msg}
+            #return HttpResponse(msg)
+            return render(request,'business.html', context)                                    
                                 
     else:
         order_form = OrderForm()

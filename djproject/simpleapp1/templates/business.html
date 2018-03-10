@@ -8,4 +8,42 @@
 
 </form>
 
+<br><br>
+<h3> Order Status : - </h3>
+<h5>{{ msg }} <h5> 
+<br><br>
+
+<h2> Order History</h2>
+<table>
+<th>Order No. </th>
+<th> Item </th>
+<th>Quantity</th>
+{% for o in order_all %}
+<tr>
+<td> {{ o.id }} </td>
+<td> {{ o.laptop }} </td>
+<td> {{ o.qty }} </td>
+<!-- td> {{ o.ordernum }} </td-->
+</tr>
+{% endfor %}
+</table>
+
+<br><br>
+<h2> Inventory Status</h2>
+<table>
+<th> ModelID </th>
+<th> Model </th>
+<th>Current Stock</th>
+<th>Initial Stock</th>
+{% for l in laptop_all %}
+<tr>
+<td> {{ l.id }} </td>
+<td> {{ l.laptopmodel }} </td>
+<td> {{ l.currentstock }} </td>
+<td> {{ l.totalstock }} </td>
+<!-- td> {{ o.ordernum }} </td-->
+</tr>
+{% endfor %}
+</table>
+
 
