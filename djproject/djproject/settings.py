@@ -88,7 +88,7 @@ DATABASES = {
         'HOST':'dbhost',
         'PORT':'3306',
         'USER':'monty',
-        'PASSWORD':'welcome@123'
+        'PASSWORD':'welcome%40123'
     }
 }
 
