@@ -17,13 +17,18 @@ from django.conf.urls import url
 #from django.urls import path
 from django.contrib import admin
 from simpleapp1 import views
+#from simpleapp1.admin import admin_site
 
 app_name = 'simpleapp1'
 urlpatterns = [
-    url(r'^admin/', admin.site.urls , name='admin'),
+    url(r'^admin/', admin.site.urls, name="admin"),    
     url(r'^$', views.index, name='index'),
     #url('', views.index, name='index'),
     url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
     url(r'^killpid/(?P<procid>[0-9]+)/$',views.kill_load,name='kill_load'),
+    url(r'^inventory/$', views.Inventory.as_view(), name='inventory'),
+    url(r'^inventory/add/$', views.InventoryAdd.as_view(), name='inventory_add'),
+    url(r'^inventory/update/(?P<pk>[\w-]+)$', views.InventoryUpdate.as_view(), name='inventory_update'),
+    
     #url(r'^business/', views.business, name='business'),
 ]

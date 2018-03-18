@@ -20,6 +20,10 @@ from simpleapp1.forms import LaptopForm, OrderForm
 from models import Laptop, Order
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
+from django.views.generic import ListView , DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
+
 process_pid_list = []
 
 def index(request):  
@@ -118,3 +122,21 @@ def kill_load(request, procid):
                'process_pid_list': process_pid_list}
     return render(request, 'killed_process.html', context )
     #return HttpResponse(l)
+    
+
+class Inventory(ListView):
+    model = Laptop
+    template_name = 'inventory.html'
+    
+class InventoryAdd(CreateView):
+    model = Laptop
+    fields = ['laptopmodel', 'currentstock']
+    template_name = 'InventoryAdd.html'
+    success_url = reverse_lazy('simpleapp1:inventory')
+    
+class InventoryUpdate(UpdateView):
+    model = Laptop
+    fields = ['laptopmodel', 'currentstock']
+    template_name = 'InventoryUpdate.html'
+    success_url = reverse_lazy('simpleapp1:inventory')
+    

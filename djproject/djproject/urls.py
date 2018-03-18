@@ -17,10 +17,11 @@ Including another URLconf
 from django.conf.urls import url, include
 #from django.urls import path
 from django.contrib import admin
-from simpleapp1 import views
+#from simpleapp1.admin import admin_site
+#from simpleapp1 import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls), # required to overcome NoReverseMatch found error
     url(r'^autoscale/', include('simpleapp1.urls')),
 #     url(r'^$', views.index, name='index'),
 #     url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
