@@ -165,7 +165,7 @@ def openstack_view(request):
         pass
     context = {'slist': slist}
     #return render(request, 'openstack_view.html', context)
-    return HttpResponse(slist)
+    return HttpResponse(sdict)
    
 
 class Inventory(ListView):
