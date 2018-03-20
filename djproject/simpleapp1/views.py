@@ -156,11 +156,11 @@ def openstack_view(request):
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
                     if net['OS-EXT-IPS:type']=='floating':
-                        fip = net['addr']
+                        sdict['fip'] = net['addr']
                     else:
-                        pip = net['addr']
-                    sdict = {'sobj': s, 'fip': fip}
-                    slist.append(sdict)
+                        sdict['pip'] = net['addr']
+                    sdict['sobj'] = s
+                slist.append(sdict)
                 
     except:
         pass
