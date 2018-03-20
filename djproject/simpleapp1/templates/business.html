@@ -1,4 +1,4 @@
-<h1>Welcome to Business Page </h1>
+<h1>Welcome to Home Page of ITSS Autoscaling Testing Application </h1>
 <div class="div-right">
 
 {% include "server_stat.html" %}
@@ -56,7 +56,8 @@
 </tr>
 {% endfor %}
 </table>
-<p><a href="admin/simpleapp1/laptop/"> Add Stock to Inventory Inventory click here</a></p>
+<p><a href="{%  url 'simpleapp1:inventory'  %} "> Add Stock to Inventory Inventory click here</a></p>
+
 </div>
 </div>
 <style>

@@ -13,18 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-#from django.urls import include, path
-from django.conf.urls import url, include
+from django.conf.urls import url
 #from django.urls import path
 from django.contrib import admin
+from simpleapp1 import views
 #from simpleapp1.admin import admin_site
-#from simpleapp1 import views
 
+app_name = 'simpleapp1'
 urlpatterns = [
-    url(r'^admin/', admin.site.urls), # required to overcome NoReverseMatch found error
-    url(r'^autoscale/', include('simpleapp1.urls')),
-#     url(r'^$', views.index, name='index'),
-#     url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
-#     url(r'^killpid/(?P<procid>[0-9]+)/$',views.kill_load,name='kill_load'),
+    url(r'^admin/', admin.site.urls, name="admin"),    
+    url(r'^$', views.index, name='index'),
+    #url('', views.index, name='index'),
+    url(r'^cpuload/', views.overload_cpu, name='overload_cpu'),
+    url(r'^killpid/(?P<procid>[0-9]+)/$',views.kill_load,name='kill_load'),
+    url(r'^inventory/$', views.Inventory.as_view(), name='inventory'),
+    url(r'^inventory/add/$', views.InventoryAdd.as_view(), name='inventory_add'),
+    url(r'^inventory/update/(?P<pk>[\w-]+)$', views.InventoryUpdate.as_view(), name='inventory_update'),
+    
     #url(r'^business/', views.business, name='business'),
 ]

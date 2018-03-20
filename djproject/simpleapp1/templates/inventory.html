@@ -1,0 +1,16 @@
+
+
+
+    <h2>Laptop Inventory Managment</h2>
+    <ul>
+        {% for laptop in object_list %}
+        
+            <li>{{ laptop.laptopmodel }}  {{ laptop.currentstock }}  <a href = "{% url 'simpleapp1:inventory_update' laptop.id %}" > Update Model ID {{ laptop.id  }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+  <br>
+  
+  <a href= "{% url 'simpleapp1:inventory_add'%}"> Add New Laptop Model</a>
+    

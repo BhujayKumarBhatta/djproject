@@ -20,10 +20,16 @@ from simpleapp1.forms import LaptopForm, OrderForm
 from models import Laptop, Order
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
+
 from keystoneauth1 import loading , session
 from novaclient import client as novaclient
 from gnocchiclient import client as gclient
 import datetime
+
+
+from django.views.generic import ListView , DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse_lazy
 
 
 process_pid_list = []
@@ -126,6 +132,7 @@ def kill_load(request, procid):
     return render(request, 'killed_process.html', context )
     #return HttpResponse(l)
 
+
 def openstack_view(request):
     loader = loading.get_plugin_loader('password')
     auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
@@ -150,3 +157,22 @@ def openstack_view(request):
         pass
     context = {'slist': slist}
     return render(request, 'openstack_view.html', context)
+   
+
+class Inventory(ListView):
+    model = Laptop
+    template_name = 'inventory.html'
+    
+class InventoryAdd(CreateView):
+    model = Laptop
+    fields = ['laptopmodel', 'currentstock']
+    template_name = 'InventoryAdd.html'
+    success_url = reverse_lazy('simpleapp1:inventory')
+    
+class InventoryUpdate(UpdateView):
+    model = Laptop
+    fields = ['laptopmodel', 'currentstock']
+    template_name = 'InventoryUpdate.html'
+    success_url = reverse_lazy('simpleapp1:inventory')
+    
+

@@ -49,7 +49,7 @@
 	<p> Process PID   </p> 
 </td>
 <td>
-	<p> <a href="{% url 'kill_load' process_pid  %}" > {{ process_pid }} Click here to kill this cpuload process </a> </p> 
+	<p> <a href="{% url 'simpleapp1:kill_load' process_pid  %}" > {{ process_pid }} Click here to kill this cpuload process </a> </p> 
 </td>
 <tr>
 {% endfor %}
