@@ -164,7 +164,8 @@ def openstack_view(request):
     except:
         pass
     context = {'slist': slist}
-    return render(request, 'openstack_view.html', context)
+    #return render(request, 'openstack_view.html', context)
+    return HttpResponse(context)
    
 
 class Inventory(ListView):
