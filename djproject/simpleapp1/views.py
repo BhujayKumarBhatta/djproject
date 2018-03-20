@@ -152,7 +152,11 @@ def openstack_view(request):
         al = nova.servers.list()
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
-                slist.append(s)
+                for net in s.to_dic()['addresses'][s.networks.keys()[0]]:
+                    if net['OS-EXT-IPS:type']=='floating':
+                        sdict = {'sobj': s, 'fip': net['addr']}
+                        slist.append(sdict)
+                
     except:
         pass
     context = {'slist': slist}
