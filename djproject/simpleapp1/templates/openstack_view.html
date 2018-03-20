@@ -1,0 +1,41 @@
+<h4>Openstack Monitoring View </h4>
+<table >
+<div class = "table">
+
+{% for s in slist %}
+
+<tr> <td><p> Hostname</p></td>   <td><p> {{ s.name }} </p></td> </tr> 
+
+
+{% endfor %}
+</table>
+</div>
+
+<style>
+   
+   table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
+   td  {border:1px solid black;}
+   input {width:50;color:blue;font-size:8pt;width:60px}
+    .div-left{
+    float:left;
+    padding-left:10px;
+    margin-left:20px
+}
+.div-right{
+    float:right;
+    padding-right:10px;
+    margin-right:100px
+}
+.container{
+     
+    max-width:100%;
+    border:1px solid salmon;
+    
+    padding-top:5px;
+}
+
+.td-log {width:90%
+
+}
+   </style>
+

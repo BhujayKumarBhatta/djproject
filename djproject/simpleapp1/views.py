@@ -20,7 +20,14 @@ from simpleapp1.forms import LaptopForm, OrderForm
 from models import Laptop, Order
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
+from keystoneauth1 import loading , session
+from novaclient import client as novaclient
+from gnocchiclient import client as gclient
+import datetime
+
+
 process_pid_list = []
+slist = []
 
 def index(request):  
     laptop_all = Laptop.objects.all()
@@ -118,3 +125,28 @@ def kill_load(request, procid):
                'process_pid_list': process_pid_list}
     return render(request, 'killed_process.html', context )
     #return HttpResponse(l)
+
+def openstack_view(request):
+    loader = loading.get_plugin_loader('password')
+    auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
+                                     project_domain_name='itc',
+                                     user_domain_name='itc',
+                                     username='bbhatta',
+                                     password='welcome@123',
+                                     tenant_name='bhujay',
+                                     project_name='bhujay',
+                                     )
+    sess = session.Session(auth=auth)
+    nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
+    gcon = gclient.Client('1', session=sess,
+                           adapter_options={'connect_retries': 3,
+                           'interface': 'internalURL'} )
+    try:
+        al = nova.servers.list()
+        for s in al:
+            if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+                slist.append(s)
+    except:
+        pass
+    context = {'slist': slist}
+    return render(request, 'openstack_view.html', context)
