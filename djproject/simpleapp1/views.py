@@ -33,7 +33,7 @@ from django.core.urlresolvers import reverse_lazy
 
 
 process_pid_list = []
-slist = []
+
 
 def index(request):  
     laptop_all = Laptop.objects.all()
@@ -134,6 +134,8 @@ def kill_load(request, procid):
 
 
 def openstack_view(request):
+    slist = []
+    sdict = {}
     loader = loading.get_plugin_loader('password')
     auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
                                      project_domain_name='itc',
