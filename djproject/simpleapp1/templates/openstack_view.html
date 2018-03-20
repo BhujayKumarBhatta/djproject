@@ -5,7 +5,7 @@
 {% for s in slist %}
 
 <tr> <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fip }}</td>
-<td> Floating IP </td> <td> <a href= {{ s.fip }} > {{ s.ip }} </a> </td> 
+<td> Floating IP </td> <td> <a href= {{ s.fip }} > {{ s.fip }} </a> </td> 
  </tr>  
 	
 {% endfor %}
