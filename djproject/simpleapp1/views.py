@@ -160,7 +160,7 @@ def openstack_view(request):
                     else:
                         pip = net['addr']
                     sdict = {'sobj': s, 'fip': fip}
-                slist.append(sdict)
+                    slist.append(sdict)
                 
     except:
         pass
