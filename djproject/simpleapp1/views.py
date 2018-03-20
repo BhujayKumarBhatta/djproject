@@ -157,8 +157,10 @@ def openstack_view(request):
                 for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
                     if net['OS-EXT-IPS:type']=='floating':
                         fip = net['addr']
-                        sdict = {'sobj': s, 'fip': fip}
-                        slist.append(sdict)
+                    else:
+                        pip = net['addr']
+                    sdict = {'sobj': s, 'fip': fip}
+                slist.append(sdict)
                 
     except:
         pass
