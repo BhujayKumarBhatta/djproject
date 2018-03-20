@@ -6,7 +6,14 @@
 
 <tr> <td><p> Hostname</p></td>   <td><p> {{ s.name }} </p></td> </tr> 
 
-
+	{% for net in s.to_dict()['addresses'][s.networks.keys()[0]] %}
+ 		
+ 		{% if net['OS-EXT-IPS:type']=='floating' %}
+ 		
+ 		   <tr> <td><p> Floating IP </p></td>   <td><p> {{ net['addr'] }} </p></td> </tr> 
+ 		
+        {% endif }%
+	{% endfor %}
 {% endfor %}
 </table>
 </div>
