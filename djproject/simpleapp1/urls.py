@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^inventory/$', views.Inventory.as_view(), name='inventory'),
     url(r'^inventory/add/$', views.InventoryAdd.as_view(), name='inventory_add'),
     url(r'^inventory/update/(?P<pk>[\w-]+)$', views.InventoryUpdate.as_view(), name='inventory_update'),
+    url(r'^openstack/', views.openstack_view, name='openstack_view'),
     
     #url(r'^business/', views.business, name='business'),
 ]
