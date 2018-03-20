@@ -1,0 +1,5 @@
+d1={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:f2:0f:8f', u'version': 4, u'addr': u'200.1.1.30', u'OS-EXT-IPS:type': u'fixed'}
+d2={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:f2:0f:8f', u'version': 4, u'addr': u'10.172.120.21', u'OS-EXT-IPS:type': u'floating'}
+d3={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'200.1.1.18', u'OS-EXT-IPS:type': u'fixed'}
+d4={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'10.172.120.57', u'OS-EXT-IPS:type': u'floating'}
+l=[d1,d2,d3,d4]
