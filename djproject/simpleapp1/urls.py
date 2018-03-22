@@ -30,9 +30,9 @@ urlpatterns = [
     url(r'^inventory/add/$', views.InventoryAdd.as_view(), name='inventory_add'),
     url(r'^inventory/update/(?P<pk>[\w-]+)$', views.InventoryUpdate.as_view(), name='inventory_update'),
     url(r'^openstack/', views.openstack_view, name='openstack'),
-    url(r'^openstack/osauth/$', views.OSauth.as_view(), name='osauth'),
-    url(r'^openstack/osauth/add/$', views.OSauthAdd.as_view(), name='osauth_add'),
-    url(r'^openstack/osauth/update(?P<pk>[\w-]+)$', views.OSauthUpdate.as_view(), name='osauth_update'),
+    url(r'^osauth/$', views.OSauth.as_view(), name='osauth'),
+    url(r'^osauth/add/$', views.OSauthAdd.as_view(), name='osauth_add'),
+    url(r'^osauth/update(?P<pk>[\w-]+)$', views.OSauthUpdate.as_view(), name='osauth_update'),
     
     #url(r'^business/', views.business, name='business'),
 ]
