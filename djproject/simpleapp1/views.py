@@ -147,10 +147,10 @@ def openstack_view(request):
                                      project_name= a.os_project_name, 
                                      )
     sess = session.Session(auth=auth)
-    nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
+    nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
     gcon = gclient.Client('1', session=sess,
                            adapter_options={'connect_retries': 3,
-                           'interface': 'internalURL'} )
+                           'interface': a.os_url_type} )
     try:
         al = nova.servers.list()
         for s in al:

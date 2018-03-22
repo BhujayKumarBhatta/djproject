@@ -1,9 +1,13 @@
 
-    <h2>Openstack Authentication Details</h2>
+ 
+
+
+    <h2>Openstack Authentication Details , only the first record with id= 1 is valid entry</h2>
     <ul>
         {% for osauth in object_list %}
         
-            <li>{{ osauth.os_url }} 
+            <li> {{ osauth.id }}
+            {{ osauth.os_url }} 
              {{ osauth.os_project_domain_name }} 
              {{ osauth.os_user_domain_name }}
              {{ osauth.os_tenant_name }}
@@ -11,7 +15,7 @@
              {{ osauth.os_user_name }}
              
              
-              <a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Update Model ID {{ laptop.id  }}</a>
+              <a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a>
             </li>
         {% endfor %}
     </ul>
