@@ -188,3 +188,24 @@ class InventoryUpdate(UpdateView):
     success_url = reverse_lazy('simpleapp1:inventory')
     
 
+    
+class OSauth(ListView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth.html'
+    
+class OSauthAdd(CreateView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth_add.html'
+    success_url = reverse_lazy('simpleapp1:osauth')
+
+class OSauthUpdate(UpdateView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth_add.html'
+    success_url = reverse_lazy('simpleapp1:osauth')
+    
+        
+    
+
