@@ -134,16 +134,17 @@ def kill_load(request, procid):
 
 
 def openstack_view(request):
+    a=Openstack_Auth.objects.get(pk=1)          
     slist = []
     sdict = {}
     loader = loading.get_plugin_loader('password')
-    auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
-                                     project_domain_name='itc',
-                                     user_domain_name='itc',
-                                     username='bbhatta',
-                                     password='welcome@123',
-                                     tenant_name='bhujay',
-                                     project_name='bhujay',
+    auth = loader.load_from_options(auth_url= a.os_url,
+                                     project_domain_name= a.os_project_domain_name,
+                                     user_domain_name=  a.os_user_domain_name,
+                                     username=  a.os_user_name,
+                                     password= a.os_password,
+                                     tenant_name= a.os_tenant_name,
+                                     project_name= a.os_project_name, 
                                      )
     sess = session.Session(auth=auth)
     nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
