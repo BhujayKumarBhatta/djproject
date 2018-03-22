@@ -1,16 +1,13 @@
 <h4>Openstack Monitoring View </h4>
 <table >
 <div class = "table">
-
-{% for s in slist %}
-
-<tr>
 <th>Hostname</th> <th> Fixed IP</th>
 <th> Last Collection Time</th> <th> Last Collect Value</th>
 <th> Fixed IP </th> 
 
+{% for s in slist %}
 
- <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fixedip }}</td>
+<tr> <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fixedip }}</td>
 <td>{{ s.collection_time }}</td>
 <td>{{ s.cutil }}</td>
 <td> Floating IP </td> <td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td> 
