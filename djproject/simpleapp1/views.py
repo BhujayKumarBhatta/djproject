@@ -154,11 +154,16 @@ def openstack_view(request):
         al = nova.servers.list()
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
-                for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
-                    if net['OS-EXT-IPS:type']=='floating':
-                        fip = net['addr']
-                        sdict = {'sobj': s, 'fip': fip}
-                        slist.append(sdict)
+                all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
+                vdate, vgran, cutil = all_cpu_util_values.pop()
+                list_of_ips=s.networks.itervalues().next()
+                fixedip=list_of_ips[0]
+                floatip=list_of_ips[1]     
+                #print (" FixedIP: %s , FloatIP: %s , Time: %s , CPU Load: % s"
+                #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
+                sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
+                  'collection_time' : vdate.strftime('%Y-%m-%d %H:%M:%S'), 'cutil': cutil }
+                slist.append(sdict)  
                 
     except:
         pass

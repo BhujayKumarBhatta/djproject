@@ -4,8 +4,10 @@
 
 {% for s in slist %}
 
-<tr> <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fip }}</td>
-<td> Floating IP </td> <td> <a href= "http://{{ s.fip }}/autoscale " > {{ s.fip }} </a> </td> 
+<tr> <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fixedip }}</td>
+<td>{{ s.collection_time }}</td>
+<td>{{ s.cutil }}</td>
+<td> Floating IP </td> <td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td> 
  </tr>  
 	
 {% endfor %}
