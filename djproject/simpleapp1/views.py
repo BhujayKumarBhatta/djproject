@@ -134,11 +134,13 @@ def kill_load(request, procid):
 
 
 def openstack_view(request):
-    a=Openstack_Auth.objects.get(pk=1)          
+              
     slist = []
-    sdict = {}
-    loader = loading.get_plugin_loader('password')
-    auth = loader.load_from_options(auth_url= a.os_url,
+    sdict = {}    
+    try:
+        a=Openstack_Auth.objects.get(pk=1)
+        loader = loading.get_plugin_loader('password')
+        auth = loader.load_from_options(auth_url= a.os_url,
                                      project_domain_name= a.os_project_domain_name,
                                      user_domain_name=  a.os_user_domain_name,
                                      username=  a.os_user_name,
@@ -146,12 +148,12 @@ def openstack_view(request):
                                      tenant_name= a.os_tenant_name,
                                      project_name= a.os_project_name, 
                                      )
-    sess = session.Session(auth=auth)
-    nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
-    gcon = gclient.Client('1', session=sess,
+        sess = session.Session(auth=auth)
+        nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
+        gcon = gclient.Client('1', session=sess,
                            adapter_options={'connect_retries': 3,
                            'interface': a.os_url_type} )
-    try:
+        
         al = nova.servers.list()
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
