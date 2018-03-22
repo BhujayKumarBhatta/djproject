@@ -17,7 +17,7 @@ import time
 from django.template.defaultfilters import join
 
 from simpleapp1.forms import LaptopForm, OrderForm
-from models import Laptop, Order
+from models import Laptop, Order, Openstack_Auth
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
 
