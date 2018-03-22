@@ -1,19 +1,17 @@
 
-
-
     <h2>Openstack Authentication Details</h2>
     <ul>
         {% for osauth in object_list %}
         
-            <li>{{ Openstack_Auth.os_url }} 
-             {{ Openstack_Auth.os_project_domain_name }} 
-             {{ Openstack_Auth.os_user_domain_name }}
-             {{ Openstack_Auth.os_tenant_name }}
-             {{ Openstack_Auth.os_project_name }}
-             {{ Openstack_Auth.os_user_name }}
-             {{ Openstack_Auth.os_password }}
+            <li>{{ osauth.os_url }} 
+             {{ osauth.os_project_domain_name }} 
+             {{ osauth.os_user_domain_name }}
+             {{ osauth.os_tenant_name }}
+             {{ osauth.os_project_name }}
+             {{ osauth.os_user_name }}
+             {{ osauth.os_password }}
              
-              <a href = "{% url 'simpleapp1:inventory_update' laptop.id %}" > Update Model ID {{ laptop.id  }}</a>
+              <a href = "{% url 'simpleapp1:osauth_update' laptop.id %}" > Update Model ID {{ laptop.id  }}</a>
             </li>
         {% endfor %}
     </ul>
