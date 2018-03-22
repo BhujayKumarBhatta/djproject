@@ -23,7 +23,7 @@ auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
                                  project_name='bhujay',
                                  )
 sess = session.Session(auth=auth)
-nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
+nova = novaclient.Client('2', session=sess,endpoint_type='publicURL')
 gcon = gclient.Client('1', session=sess,
                        adapter_options={'connect_retries': 3,
                        'interface': 'internalURL'} )
