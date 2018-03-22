@@ -13,6 +13,7 @@
              {{ osauth.os_tenant_name }}
              {{ osauth.os_project_name }}
              {{ osauth.os_user_name }}
+             {{ osauth.os_url_type }}
              
              
               <a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a>
