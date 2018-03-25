@@ -18,7 +18,8 @@ from the home url of load balancer
 </p>
 
 
-
+<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
+<br>
 
 <table >
 <div class = "table">
@@ -36,9 +37,20 @@ from the home url of load balancer
 {% endfor %}
 </table>
 </div>
- 
+<p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
+down is triggerred </p>
+
 <br>
-<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
+<table>
+{% for a in alist %}
+<th> {{ a.aname }}</th> <th> Alarm State </th>
+{% for h in a.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+{% endfor %}
+</table>
+
+
 
 <style>
    
@@ -68,3 +80,28 @@ from the home url of load balancer
 }
    </style>
 
+
+<!--
+<br>
+<div class="container">
+
+<div class="div-left">
+<table>
+<th> {{ alist.0.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.0.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="div-right">
+<table>
+<th> {{ alist.1.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.1.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+-->

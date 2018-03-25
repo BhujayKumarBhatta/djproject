@@ -24,6 +24,7 @@ from django.forms import formset_factory,modelformset_factory,inlineformset_fact
 from keystoneauth1 import loading , session
 from novaclient import client as novaclient
 from gnocchiclient import client as gclient
+from aodhclient.v2 import client as aclient
 import datetime
 
 
@@ -174,7 +175,21 @@ def openstack_view(request):
                 
     except:
         pass
-    context = {'slist': slist}
+    alist = []
+    try:
+        acon =  aclient.Client(session=sess,interface= 'internalURL')
+        for a in acon.alarm.list():
+           rule=a['gnocchi_aggregation_by_resources_threshold_rule']
+           rq=rule['query']
+           if 'f447c07f-ff7b-48b8-924b-ff7220e20c0b' in rq:
+               aid = a['alarm_id']
+               aname = a['name']
+               ahistory = acon.alarm_history.get(aid)
+               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory }
+               alist.append(adict)
+    except:
+        pass
+    context = {'slist': slist, 'alist': alist}
     return render(request, 'openstack_view.html', context)
    
 
