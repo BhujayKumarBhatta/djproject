@@ -1,8 +1,9 @@
 <form action="" method="post">{% csrf_token %}
-    <!-- {{ form.as_p }} -->
-    <table>
+    {{ form.as_p }}
+    <!--  table>
     <tr><td>Password </td> <td>{{ object.os_password }}<td> </td></tr>
     <td>Password </td><td> <input id ="os_password" label = "os_password" name = "os_password"  value= {{ object.os_password }} /> </td>
     </table>
+    -->
     <input type="submit" value="Add" />
 </form>

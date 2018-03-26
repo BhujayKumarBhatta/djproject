@@ -26,5 +26,14 @@ class OrderForm(ModelForm):
         widgets = {
             'qty': NumberInput(attrs={'size':20}),
         }
+class OSAuthEditForm(ModelForm):
+    #os_password = forms.CharField(widget=forms.PasswordInput)
+    class Meta:
+        model=Order        
+        fields='__all__'
+        widgets = {
+            'os_password': PasswordInput(),
+            }
+
        
         

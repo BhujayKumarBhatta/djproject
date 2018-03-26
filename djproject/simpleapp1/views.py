@@ -31,6 +31,7 @@ import datetime
 from django.views.generic import ListView , DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
+import forms
 
 
 process_pid_list = []
@@ -220,12 +221,14 @@ class OSauth(ListView):
 class OSauthAdd(CreateView):
     model = Openstack_Auth
     fields = '__all__'
+    form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
 
 class OSauthUpdate(UpdateView):
     model = Openstack_Auth
     fields = '__all__'
+    form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
     
