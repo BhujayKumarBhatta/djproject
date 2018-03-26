@@ -29,7 +29,7 @@ class OrderForm(ModelForm):
 class OSAuthEditForm(ModelForm):
     #os_password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
-        model=Order        
+        model=Openstack_Auth        
         fields='__all__'
         widgets = {
             'os_password': PasswordInput(),
