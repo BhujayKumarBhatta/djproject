@@ -7,7 +7,7 @@ Created on Jul 24, 2016
 from django import forms
 from django.forms import  ModelForm, formset_factory
 from django.forms import Textarea,CheckboxInput,SelectMultiple ,PasswordInput
-from simpleapp1.models import Laptop,Order
+from simpleapp1.models import Laptop,Order,Openstack_Auth
 from django.forms.widgets import NumberInput
 
 
