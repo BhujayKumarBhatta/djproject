@@ -134,7 +134,7 @@ def kill_load(request, procid):
     return render(request, 'killed_process.html', context )
     #return HttpResponse(l)
 
-
+# openstack minitoring view 
 def openstack_view(request):
               
     slist = []
@@ -146,7 +146,8 @@ def openstack_view(request):
                                      project_domain_name= conf.os_project_domain_name,
                                      user_domain_name=  conf.os_user_domain_name,
                                      username=  conf.os_user_name,
-                                     password= conf.os_password,
+                                     #password= conf.os_password,
+                                     password= conf.os_password_encrypt,
                                      tenant_name= conf.os_tenant_name,
                                      project_name= conf.os_project_name, 
                                      )
@@ -194,7 +195,7 @@ def openstack_view(request):
     context = {'slist': slist, 'alist': alist}
     return render(request, 'openstack_view.html', context)
    
-
+# Iventory addition and update by the store manager
 class Inventory(ListView):
     model = Laptop
     template_name = 'inventory.html'
@@ -209,10 +210,9 @@ class InventoryUpdate(UpdateView):
     model = Laptop
     fields = ['laptopmodel', 'currentstock']
     template_name = 'InventoryUpdate.html'
-    success_url = reverse_lazy('simpleapp1:inventory')
-    
+    success_url = reverse_lazy('simpleapp1:inventory')    
 
-    
+#Configuration setting for connecting to openstack controller and retrive monoitoring data     
 class OSauth(ListView):
     model = Openstack_Auth
     fields = '__all__'

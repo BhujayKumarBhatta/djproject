@@ -32,7 +32,7 @@ class OSAuthEditForm(ModelForm):
         model=Openstack_Auth        
         fields='__all__'
         widgets = {
-            'os_password': PasswordInput(),
+            'os_password_encrypt': PasswordInput(),
             }
 
        
