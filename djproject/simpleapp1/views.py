@@ -181,7 +181,8 @@ def openstack_view(request):
         for a in acon.alarm.list():
            rule=a['gnocchi_aggregation_by_resources_threshold_rule']
            rq=rule['query']
-           if 'f447c07f-ff7b-48b8-924b-ff7220e20c0b' in rq:
+           #if 'f447c07f-ff7b-48b8-924b-ff7220e20c0b' in rq:
+           if a.os_stack_id in rq:
                aid = a['alarm_id']
                aname = a['name']
                ahistory = acon.alarm_history.get(aid)
