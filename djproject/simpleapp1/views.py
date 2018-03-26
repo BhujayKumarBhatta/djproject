@@ -139,21 +139,21 @@ def openstack_view(request):
     slist = []
     sdict = {}    
     try:
-        a=Openstack_Auth.objects.get(pk=1)
+        conf=Openstack_Auth.objects.get(pk=1)
         loader = loading.get_plugin_loader('password')
-        auth = loader.load_from_options(auth_url= a.os_url,
-                                     project_domain_name= a.os_project_domain_name,
-                                     user_domain_name=  a.os_user_domain_name,
-                                     username=  a.os_user_name,
-                                     password= a.os_password,
-                                     tenant_name= a.os_tenant_name,
-                                     project_name= a.os_project_name, 
+        auth = loader.load_from_options(auth_url= conf.os_url,
+                                     project_domain_name= conf.os_project_domain_name,
+                                     user_domain_name=  conf.os_user_domain_name,
+                                     username=  conf.os_user_name,
+                                     password= conf.os_password,
+                                     tenant_name= conf.os_tenant_name,
+                                     project_name= conf.os_project_name, 
                                      )
         sess = session.Session(auth=auth)
-        nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
+        nova = novaclient.Client('2', session=sess,endpoint_type= conf.os_url_type)
         gcon = gclient.Client('1', session=sess,
                            adapter_options={'connect_retries': 3,
-                           'interface': a.os_url_type} )
+                           'interface': conf.os_url_type} )
         
         al = nova.servers.list()
         for s in al:
@@ -178,13 +178,13 @@ def openstack_view(request):
     alist = []
     try:
         acon =  aclient.Client(session=sess,interface= 'internalURL')
-        for a in acon.alarm.list():
-           rule=a['gnocchi_aggregation_by_resources_threshold_rule']
+        for myalarm in acon.alarm.list():
+           rule=myalarm['gnocchi_aggregation_by_resources_threshold_rule']
            rq=rule['query']
            #if 'f447c07f-ff7b-48b8-924b-ff7220e20c0b' in rq:
-           if a.os_stack_id in rq:
-               aid = a['alarm_id']
-               aname = a['name']
+           if conf.os_stack_id in rq:
+               aid = myalarm['alarm_id']
+               aname = myalarm['name']
                ahistory = acon.alarm_history.get(aid)
                adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory }
                alist.append(adict)
