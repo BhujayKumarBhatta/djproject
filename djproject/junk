@@ -5,6 +5,7 @@ d4={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'
 l=[d1,d2,d3,d4]
 
 
+
 >>> d= s1.networks
 >>> d
 {u'pocnet': [u'70.0.0.20', u'2.2.2.27']}
@@ -25,5 +26,173 @@ AttributeError: 'dict' object has no attribute 'itreitems'
 70.0.0.20
 2.2.2.27
 
+
+
+#sudo -E -H pip insiatll --upgrade pip setuptools wheel
+#sudo -E -H pip install python-openstack-client gnocchiclient
+
+from keystoneauth1 import loading , session
+from novaclient import client as novaclient
+from gnocchiclient import client as gclient
+import datetime
+
+loader = loading.get_plugin_loader('password')
+auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
+                                 project_domain_name='itc',
+                                 user_domain_name='itc',
+                                 username='bbhatta',
+                                 password='welcome@123',
+                                 tenant_name='bhujay',
+                                 project_name='bhujay',
+                                 )
+sess = session.Session(auth=auth)
+nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
+gcon = gclient.Client('1', session=sess,
+                       adapter_options={'connect_retries': 3,
+                       'interface': 'internalURL'} )
+
+nova.servers.list()
+gcon.metric.list()
+
+
+nova.servers.list()[0].metadata['asg_name']
+#u'autoscale_demo_1'
+nova.servers.list()[0].networks
+#{u'appnet': [u'200.1.1.18', u'10.172.120.57']}
+
+gcon.metric.get_measures('cpu_util',resource_id='0769a9fb-730f-487f-a620-a894f6c74b3b')
+
+gl1=gcon.metric.get_measures('cpu_util',resource_id='0769a9fb-730f-487f-a620-a894f6c74b3b', start=datetime.datetime(2018, 3 ,19, 9, 25))
+
+currenttime=datetime.datetime.now()
+lasthour=datetime.datetime.now()-datetime.timedelta(hours=1)
+gl1=gcon.metric.get_measures('cpu_util',resource_id='0769a9fb-730f-487f-a620-a894f6c74b3b', start=lasthour)
+
+
+gcon.metric.get_measures('cpu_util',resource_id='837a6c42-1ca3-4f2e-a6b7-686ae0f70bcd')
+
+#[(datetime.datetime(2018, 3, 19, 9, 25, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.211498618533826), (datetime.datetime(2018, 3, 19, 9, 35, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.21186000010320402), (datetime.datetime(2018, 3, 19, 9, 45, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.21243252666576), (datetime.datetime(2018, 3, 19, 9, 55, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.211657972857297), (datetime.datetime(2018, 3, 19, 10, 5, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.211205720023904), (datetime.datetime(2018, 3, 19, 10, 15, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.211523038609912), (datetime.datetime(2018, 3, 19, 10, 25, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>), 300.0, 0.21524190015871103)]
+
+itemgl=gl1[0]
+a,b,c=itemgl
+c
+#0.211498618533826
+a
+#datetime.datetime(2018, 3, 19, 9, 25, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>)
+a.strftime('%Y-%m-%d %H:%M:%S')
+#'2018-03-19 09:25:00'
+al = nova.servers.list()
+slist=[]
+for s in al:
+  if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+    for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
+      if net['OS-EXT-IPS:type']=='floating':
+          floatip = net['addr']
+      else:
+         fixedip = net['addr']
+      sdict = {'sobj': s, 'floatip': floatip , 'fixedip': fixedip}
+    slist.append(sdict)                   
+
+slist=[]         
+al = nova.servers.list()         
+for s in al:
+   if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+     for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
+       if net['OS-EXT-IPS:type']=='floating':
+              fip = net['addr']
+       else:
+           pip =  net['addr']
+       sdict = {'fip': fip, 'pip': pip, 'sobj': s}
+     slist.append(sdict)
+     
+     
+     
+     
+#      try:
+#         al = nova.servers.list()
+#         for s in al:
+#             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+#                 for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
+#                     if net['OS-EXT-IPS:type']=='floating':
+#                         sdict = {'sobj': s, 'fip': net['addr']}
+#                         slist.append(sdict)
+                        
+slist=[]
+sdict={}                        
+al = nova.servers.list()
+for s in al:
+    if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+        for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
+            if net['OS-EXT-IPS:type']=='floating':
+                sdict['fip'] = net['addr']
+            else:
+                sdict['pip'] = net['addr']
+            sdict['sobj'] = s
+        slist.append(sdict)
+        
+        
+        
+
+slist=[]
+sdict={} 
+al = nova.servers.list()          
+for s in al:
+    if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+        for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
+            if net['OS-EXT-IPS:type']=='floating':
+                   sdict['fip'] =  net['addr']
+                   slist.append(sdict)
+                   
+            else:
+                   sdict['pip'] = net['addr']
+                   slist.append(sdict)
+print sdict
+
+
+
+d1={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:f2:0f:8f', u'version': 4, u'addr': u'200.1.1.30', u'OS-EXT-IPS:type': u'fixed'}
+d2={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:f2:0f:8f', u'version': 4, u'addr': u'10.172.120.21', u'OS-EXT-IPS:type': u'floating'}
+d3={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'200.1.1.18', u'OS-EXT-IPS:type': u'fixed'}
+d4={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'10.172.120.57', u'OS-EXT-IPS:type': u'floating'}
+l=[d1,d2,d3,d4]
+
+
+from simpleapp1.models import Laptop, Order, Openstack_Auth
+from keystoneauth1 import loading , session
+from novaclient import client as novaclient
+from gnocchiclient import client as gclient
+import datetime              
+a=Openstack_Auth.objects.get(pk=1)
+loader = loading.get_plugin_loader('password')
+auth = loader.load_from_options(auth_url= a.os_url,
+                                     project_domain_name= a.os_project_domain_name,
+                                     user_domain_name=  a.os_user_domain_name,
+                                     username=  a.os_user_name,
+                                     password= a.os_password,
+                                     tenant_name= a.os_tenant_name,
+                                     project_name= a.os_project_name, 
+                                     )
+sess = session.Session(auth=auth)
+nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
+gcon = gclient.Client('1', session=sess, adapter_options={'connect_retries': 3,'interface': a.os_url_type} )
+slist=[]        
+al = nova.servers.list()
+        for s in al:
+            if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+                try:
+                    all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
+                    vdate, vgran, cutil = all_cpu_util_values.pop()
+                    vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
+                except:
+                    vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
+                list_of_ips=s.networks.itervalues().next()
+                fixedip=list_of_ips[0]
+                floatip=list_of_ips[1]     
+                #print (" FixedIP: %s , FloatIP: %s , Time: %s , CPU Load: % s"
+                #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
+                sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
+                  'collection_time' : vdatef, 'cutil': cutil }
+                slist.append(sdict)                
+              
 
 

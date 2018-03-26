@@ -21,3 +21,12 @@ class Order(models.Model):
     def __unicode__(self):
         return self.ordernum
 
+class Openstack_Auth(models.Model):
+    os_url = models.URLField(max_length=200)
+    os_project_domain_name = models.CharField(max_length=100)
+    os_user_domain_name = models.CharField(max_length=100)
+    os_tenant_name = models.CharField(max_length=100)
+    os_project_name = models.CharField(max_length=100)
+    os_user_name = models.CharField(max_length=100)
+    os_password = models.CharField(max_length=100)
+    os_url_type = models.CharField(max_length=20, default='publicURL')

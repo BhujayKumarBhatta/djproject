@@ -1,0 +1,37 @@
+
+ 
+<h2> Authentication information for your openstack cloud project</h2>
+<ul>
+<li>url os the keystone in the form of https://10.172.124.14:5000/v3 or http://10.172.100.14:5000/v3</li>
+<li>From your VM  one of the above IP should be reachable and accordingly the url type need to be set as 
+publicURL or internalURL</li>
+<li>tenant name and project name is same </li>
+<li> project domain name and user domain name is same  </li>
+</ul>
+
+    <h2>Openstack Authentication Details , only the first record with id= 1 is valid entry</h2>
+    <ul>
+        {% for osauth in object_list %}
+        
+            <li> {{ osauth.id }}
+            {{ osauth.os_url }} 
+             {{ osauth.os_project_domain_name }} 
+             {{ osauth.os_user_domain_name }}
+             {{ osauth.os_tenant_name }}
+             {{ osauth.os_project_name }}
+             {{ osauth.os_user_name }}
+             {{ osauth.os_url_type }}
+             
+             
+              <a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+  <br>
+  
+  <a href= "{% url 'simpleapp1:osauth_add'%}"> Click to  Enter Openstack authentication information here</a>
+    
+    
+
+    

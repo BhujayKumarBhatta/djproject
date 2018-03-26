@@ -1,16 +1,56 @@
 <h4>Openstack Monitoring View </h4>
+
+<p>After inducing or Killing the load on CPU from the front page , come to this page to see that how Openstack Monitoring is updating
+its monitoring data. The data collection and update takes time as long as 30 Minutes . Although  servers cpu load  has been 
+increased or decreased  immediately as shown in the front page , the openstack monitoring agent reflects a
+ gradual decay of the load. Refresh the  page every  10 minutes to see this change till it shows actual CPU load as shown in the 
+front page .   </p>
+
+<p>
+Depending on the  monitoring time delay , the auto scale may take time . Once the server is  spinned off ,  
+There is additional time required for completion of software installation around 10 Minutes. This time can be reduced if the 
+vm is spinned off from a image that  has all the software preinstalled.  
+</p>
+
+<p>
+Remember, during scaldown operation any of the app server may be deleted , hence access to this page should be done 
+from the home url of load balancer
+</p>
+
+
+<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
+<br>
+
 <table >
 <div class = "table">
+<th>Hostname</th>  <th>HostID</th>   <th> Fixed IP</th>
+<th> Last Collection Time (UTC )</th> <th> Last Collect Value</th>
+<th> Fixed IP </th> 
 
 {% for s in slist %}
 
-<tr> <td> Hostname</td>   <td> {{ s.sobj.name }} </td> <td> Fixed IP</td> <td>{{ s.fip }}</td>
-<td> Floating IP </td> <td> <a href= "http://{{ s.fip }}/autoscale " > {{ s.fip }} </a> </td> 
+<tr> <td> {{ s.sobj.name }} </td>   <td> {{ s.sobj.id }} </td>    <td>{{ s.fixedip }}</td>
+<td>{{ s.collection_time }}</td> <td>{{ s.cutil }}</td>
+<td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td> 
  </tr>  
 	
 {% endfor %}
 </table>
 </div>
+<p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
+down is triggerred </p>
+
+<br>
+<table>
+{% for a in alist %}
+<th> {{ a.aname }}</th> <th> Alarm State </th>
+{% for h in a.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+{% endfor %}
+</table>
+
+
 
 <style>
    
@@ -40,3 +80,28 @@
 }
    </style>
 
+
+<!--
+<br>
+<div class="container">
+
+<div class="div-left">
+<table>
+<th> {{ alist.0.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.0.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="div-right">
+<table>
+<th> {{ alist.1.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.1.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+-->

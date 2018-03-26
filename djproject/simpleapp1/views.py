@@ -17,13 +17,14 @@ import time
 from django.template.defaultfilters import join
 
 from simpleapp1.forms import LaptopForm, OrderForm
-from models import Laptop, Order
+from models import Laptop, Order, Openstack_Auth
 from django.forms import formset_factory,modelformset_factory,inlineformset_factory
 
 
 from keystoneauth1 import loading , session
 from novaclient import client as novaclient
 from gnocchiclient import client as gclient
+from aodhclient.v2 import client as aclient
 import datetime
 
 
@@ -134,35 +135,61 @@ def kill_load(request, procid):
 
 
 def openstack_view(request):
+              
     slist = []
-    sdict = {}
-    loader = loading.get_plugin_loader('password')
-    auth = loader.load_from_options(auth_url='http://10.172.100.14:5000/v3',
-                                     project_domain_name='itc',
-                                     user_domain_name='itc',
-                                     username='bbhatta',
-                                     password='welcome@123',
-                                     tenant_name='bhujay',
-                                     project_name='bhujay',
-                                     )
-    sess = session.Session(auth=auth)
-    nova = novaclient.Client('2', session=sess,endpoint_type='internalURL')
-    gcon = gclient.Client('1', session=sess,
-                           adapter_options={'connect_retries': 3,
-                           'interface': 'internalURL'} )
+    sdict = {}    
     try:
+        a=Openstack_Auth.objects.get(pk=1)
+        loader = loading.get_plugin_loader('password')
+        auth = loader.load_from_options(auth_url= a.os_url,
+                                     project_domain_name= a.os_project_domain_name,
+                                     user_domain_name=  a.os_user_domain_name,
+                                     username=  a.os_user_name,
+                                     password= a.os_password,
+                                     tenant_name= a.os_tenant_name,
+                                     project_name= a.os_project_name, 
+                                     )
+        sess = session.Session(auth=auth)
+        nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
+        gcon = gclient.Client('1', session=sess,
+                           adapter_options={'connect_retries': 3,
+                           'interface': a.os_url_type} )
+        
         al = nova.servers.list()
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
-                for net in s.to_dict()['addresses'][s.networks.keys()[0]]:
-                    if net['OS-EXT-IPS:type']=='floating':
-                        fip = net['addr']
-                        sdict = {'sobj': s, 'fip': fip}
-                        slist.append(sdict)
+                try:
+                    all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
+                    vdate, vgran, cutil = all_cpu_util_values.pop()
+                    vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
+                except:
+                    vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
+                list_of_ips=s.networks.itervalues().next()
+                fixedip=list_of_ips[0]
+                floatip=list_of_ips[1]     
+                #print (" FixedIP: %s , FloatIP: %s , Time: %s , CPU Load: % s"
+                #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
+                sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
+                  'collection_time' : vdatef, 'cutil': cutil }
+                slist.append(sdict)  
                 
     except:
         pass
-    context = {'slist': slist}
+    alist = []
+    try:
+        acon =  aclient.Client(session=sess,interface= 'internalURL')
+        for a in acon.alarm.list():
+           rule=a['gnocchi_aggregation_by_resources_threshold_rule']
+           rq=rule['query']
+           if 'f447c07f-ff7b-48b8-924b-ff7220e20c0b' in rq:
+               aid = a['alarm_id']
+               aname = a['name']
+               ahistory = acon.alarm_history.get(aid)
+               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory }
+               alist.append(adict)
+    except:
+        pass
+    context = {'slist': slist, 'alist': alist}
     return render(request, 'openstack_view.html', context)
    
 
@@ -181,5 +208,26 @@ class InventoryUpdate(UpdateView):
     fields = ['laptopmodel', 'currentstock']
     template_name = 'InventoryUpdate.html'
     success_url = reverse_lazy('simpleapp1:inventory')
+    
+
+    
+class OSauth(ListView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth.html'
+    
+class OSauthAdd(CreateView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth_add.html'
+    success_url = reverse_lazy('simpleapp1:osauth')
+
+class OSauthUpdate(UpdateView):
+    model = Openstack_Auth
+    fields = '__all__'
+    template_name = 'osauth_add.html'
+    success_url = reverse_lazy('simpleapp1:osauth')
+    
+        
     
 

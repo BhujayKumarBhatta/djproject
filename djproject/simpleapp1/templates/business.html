@@ -1,10 +1,24 @@
-<h1>Welcome to Home Page of ITSS Autoscaling Testing Application </h1>
-<div class="div-right">
-
-{% include "server_stat.html" %}
+<h1>Welcome to Home Page of  Autoscaling Demo Application </h1>
+<div class="container">
+<div class="div-right"> {% include "server_stat.html" %} </div>
+<div class="div-leftt">
+<p>Follow these steps  see the demo</p>
+<ul>
+<li> You access the page from a load balancer IP /url  </li>
+<li> Note the Server name , IP and CPU load </li>
+<li> GEnerate Load on CPU so that autoscale can be triggered  </li>
+<li> Go to Openstack monitoring view and provide authentication info  </li>
+<li> Observer CPU load from the openstack view There is at least 15 minutes delay before the load is captured  </li>
+<li> See from Openstack monitoring view new server gets added  </li>
+<li> Come back to home page and refresh to see the server name and IP will change  </li>
+<li> Any new request to the load balancer IP /URL will load balance  between newly created servers</li>
+<li> Perform a DB transaction to check consistency while multiple app servers handles the request </li>
+<li> Kill CPU load to  see scale down triggers and additional servers deleted </li>
+</ul>
+ </div>
 </div>
 
-<h3> Place your order here </h3>
+<h3> Check a DB transaction by Placing an order here </h3>
 <form action="" method="POST" > 
 {% csrf_token %} 
 <tr>
@@ -12,12 +26,9 @@
 </tr>
 </form>
 
-<br><br>
-
 <h3> Order Status : - </h3>
 <h5>{{ msg }} <h5> 
-<br><br>
-
+<br>
 
 <div class="container">
 <div class="div-left">
