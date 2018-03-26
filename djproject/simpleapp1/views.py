@@ -220,14 +220,14 @@ class OSauth(ListView):
     
 class OSauthAdd(CreateView):
     model = Openstack_Auth
-    fields = '__all__'
+    #fields = '__all__'
     form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
 
 class OSauthUpdate(UpdateView):
     model = Openstack_Auth
-    fields = '__all__'
+    #fields = '__all__'
     form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
