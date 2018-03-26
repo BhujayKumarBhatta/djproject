@@ -3,3 +3,27 @@ d2={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:f2:0f:8f', u'version': 4, u'addr': u'
 d3={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'200.1.1.18', u'OS-EXT-IPS:type': u'fixed'}
 d4={u'OS-EXT-IPS-MAC:mac_addr': u'fa:16:3e:eb:9c:92', u'version': 4, u'addr': u'10.172.120.57', u'OS-EXT-IPS:type': u'floating'}
 l=[d1,d2,d3,d4]
+
+
+>>> d= s1.networks
+>>> d
+{u'pocnet': [u'70.0.0.20', u'2.2.2.27']}
+>>> for k,v in d.itreitems():
+...   print d[k]
+...
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: 'dict' object has no attribute 'itreitems'
+>>> for k,v in d.iteritems():
+...   print d[k]
+...
+[u'70.0.0.20', u'2.2.2.27']
+>>> for k,v in d.iteritems():
+...   for i in  d[k]:
+...      print i
+...
+70.0.0.20
+2.2.2.27
+
+
+
