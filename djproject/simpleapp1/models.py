@@ -30,4 +30,4 @@ class Openstack_Auth(models.Model):
     os_user_name = models.CharField(max_length=100)
     os_password = models.CharField(max_length=100)
     os_url_type = models.CharField(max_length=20, default='publicURL')
-    os_stack_id = models.CharField(max_length=100)
+    os_stack_id = models.CharField(max_length=100, null=True)
