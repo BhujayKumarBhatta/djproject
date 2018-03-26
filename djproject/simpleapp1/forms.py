@@ -31,6 +31,7 @@ class OSAuthEditForm(ModelForm):
     class Meta:
         model=Openstack_Auth        
         fields='__all__'
+        exclude = ['os_password']
         widgets = {
             'os_password_encrypt': PasswordInput(),
             }

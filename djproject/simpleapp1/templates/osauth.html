@@ -10,28 +10,27 @@ publicURL or internalURL</li>
 </ul>
 
     <h2>Openstack Authentication Details , only the first record with id= 1 is valid entry</h2>
-    <ul>
+    <table>
+    <th> id></th>  <th> keystone url</th> <th> domain> </th> <th> u domain</th> <th> tenant </th>
+    <th> project </th> <th> user name </th> <th> endpoit type </th> <th> stack id </th>
         {% for osauth in object_list %}
-        
-            <li> {{ osauth.id }}
-            {{ osauth.os_url }} 
-             {{ osauth.os_project_domain_name }} 
-             {{ osauth.os_user_domain_name }}
-             {{ osauth.os_tenant_name }}
-             {{ osauth.os_project_name }}
-             {{ osauth.os_user_name }}
-             {{ osauth.os_url_type }}
-             {{ osauth.os_stack_id }}
-             
-             
-              <a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a>
-            </li>
+         <tr> 
+            <td> {{ osauth.id }}</td>
+             <td> {{ osauth.os_url }} </td>
+              <td> {{ osauth.os_project_domain_name }} </td>
+               <td>{{ osauth.os_user_domain_name }}</td>
+          <td>{{ osauth.os_tenant_name }}</td>
+               <td>{{ osauth.os_project_name }}</td>
+               <td>{{ osauth.os_user_name }}</td>
+               <td>{{ osauth.os_url_type }}</td>
+               <td>{{ osauth.os_stack_id }}</td>
+               <td><a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a></td>
+            </tr> 
         {% endfor %}
-    </ul>
-
   <br>
-  
   <a href= "{% url 'simpleapp1:osauth_add'%}"> Click to  Enter Openstack authentication information here</a>
+  <a href= "{% url 'simpleapp1:openstack'%}"> Click to  view openstack monitoring data</a>
+
     
     
 
