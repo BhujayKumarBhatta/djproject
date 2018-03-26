@@ -27,8 +27,9 @@ publicURL or internalURL</li>
                <td><a href = "{% url 'simpleapp1:osauth_update' osauth.id %}" > Edit Authentication Detail {{ laptop.id  }}</a></td>
             </tr> 
         {% endfor %}
+    </table>
   <br>
-  <a href= "{% url 'simpleapp1:osauth_add'%}"> Click to  Enter Openstack authentication information here</a>
+  <a href= "{% url 'simpleapp1:osauth_add'%}"> Click to  Enter Openstack authentication information here</a><br>
   <a href= "{% url 'simpleapp1:openstack'%}"> Click to  view openstack monitoring data</a>
 
     
