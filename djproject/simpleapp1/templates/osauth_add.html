@@ -1,4 +1,8 @@
 <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
+    <!-- {{ form.as_p }} -->
+    <table>
+    <tr><td>Password </td> {{ object.os_password }}<td> </td></tr>
+    
+    </table>
     <input type="submit" value="Add" />
 </form>
