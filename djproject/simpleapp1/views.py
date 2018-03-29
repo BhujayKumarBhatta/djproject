@@ -153,13 +153,17 @@ def openstack_view(request):
         gcon = gclient.Client('1', session=sess,
                            adapter_options={'connect_retries': 3,
                            'interface': conf.os_url_type} )
-        
         al = nova.servers.list()
         slist = []
         xlist = []    
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
+                    list_of_ips=s.networks.itervalues().next()
+                    fixedip=list_of_ips[0]
+                    floatip=list_of_ips[1]
+                    
+                    #Gnocchi data collection for the server s 
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
                     vdate, vgran, cutil = all_cpu_util_values[-1]
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
@@ -169,15 +173,15 @@ def openstack_view(request):
                        xlist.append(xdict)
                 except:
                     vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
-                list_of_ips=s.networks.itervalues().next()
-                fixedip=list_of_ips[0]
-                floatip=list_of_ips[1]     
-                #print (" FixedIP: %s , FloatIP: %s , Time: %s , CPU Load: % s"
-                #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
+                    fixedip='getting prepared'
+                    floatip='getting prepared'    
+                    xlist = []
+                #Create the various key value parameters for server s
                 sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
                   'collection_time' : vdatef, 'cutil': cutil,
                   'all_cpu_util_values': all_cpu_util_values,
                   'xlist': xlist }
+                #add all the servers key value in a list for template to unpack 
                 slist.append(sdict)  
                 
     except:
