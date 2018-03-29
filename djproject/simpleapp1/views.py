@@ -139,6 +139,7 @@ def openstack_view(request):
               
     slist = []
     sdict = {}    
+    xlist = []    
     try:
         conf=Openstack_Auth.objects.get(pk=1)
         loader = loading.get_plugin_loader('password')
@@ -164,6 +165,11 @@ def openstack_view(request):
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
                     vdate, vgran, cutil = all_cpu_util_values.pop()
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
+                    list_values = []
+                    for cpu_util_value in all_cpu_util_values:
+                       xdate, xgran, xutil = cpu_util_value
+                       xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
+                       xlist.append(xdict)
                 except:
                     vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
                 list_of_ips=s.networks.itervalues().next()
@@ -173,7 +179,8 @@ def openstack_view(request):
                 #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
                 sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
                   'collection_time' : vdatef, 'cutil': cutil,
-                  'all_cpu_util_values': all_cpu_util_values }
+                  'all_cpu_util_values': all_cpu_util_values,
+                  'xlist': xlist }
                 slist.append(sdict)  
                 
     except:
