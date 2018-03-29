@@ -155,8 +155,8 @@ def openstack_view(request):
                            'interface': conf.os_url_type} )
         al = nova.servers.list()
         slist = []
-        xlist = []    
         for s in al:
+            xlist = []    
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
                     list_of_ips=s.networks.itervalues().next()
