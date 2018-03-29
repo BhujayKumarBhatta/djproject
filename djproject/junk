@@ -230,11 +230,7 @@ auth = loader.load_from_options(auth_url= a.os_url,
                                      )
 sess = session.Session(auth=auth)
 nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
-gcon = gclient.Client('1', session=sess, adapter_options={'connect_retries': 3,'interface': a.os_url_type} )
-slist=[]  
-list_values = []
-xlist = []
-graph_list = [['Time', 'Cpu Util'],]       
+gcon = gclient.Client('1', session=sess, adapter_options={'connect_retries': 3,'interface': a.os_url_type} )    
 al = nova.servers.list()
 slist = []
 for s in al:

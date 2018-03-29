@@ -36,7 +36,6 @@ import forms
 
 process_pid_list = []
 
-
 def index(request):  
     laptop_all = Laptop.objects.all()
     order_all = Order.objects.all()  
@@ -89,8 +88,6 @@ def index(request):
                'ipaddr': socket.gethostbyname(socket.gethostname()) , 
                'cpu_util': psutil.cpu_percent(),}
     return render(request,'business.html', context)
-
-
 
 def f(x):
     while True:
@@ -168,8 +165,10 @@ def openstack_view(request):
                        xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
                        xlist.append(xdict)
                 except:
+                    all_cpu_util_values = []
                     vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
                     xlist = []
+                    
                 try:
                     list_of_ips=s.networks.itervalues().next()
                     fixedip=list_of_ips[0]
