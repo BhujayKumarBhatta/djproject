@@ -163,7 +163,7 @@ def openstack_view(request):
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
-                    vdate, vgran, cutil = all_cpu_util_values.pop()
+                    vdate, vgran, cutil = all_cpu_util_values[-1]
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
                     list_values = []
                     for cpu_util_value in all_cpu_util_values:
