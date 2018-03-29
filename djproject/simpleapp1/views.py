@@ -136,10 +136,6 @@ def kill_load(request, procid):
 
 # openstack minitoring view 
 def openstack_view(request):
-              
-    slist = []
-    sdict = {}    
-    xlist = []    
     try:
         conf=Openstack_Auth.objects.get(pk=1)
         loader = loading.get_plugin_loader('password')
@@ -159,13 +155,14 @@ def openstack_view(request):
                            'interface': conf.os_url_type} )
         
         al = nova.servers.list()
+        slist = []
+        xlist = []    
         for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
                     vdate, vgran, cutil = all_cpu_util_values[-1]
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
-                    list_values = []
                     for cpu_util_value in all_cpu_util_values:
                        xdate, xgran, xutil = cpu_util_value
                        xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
