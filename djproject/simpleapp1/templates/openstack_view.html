@@ -23,30 +23,26 @@ from the home url of load balancer
 
 <table >
 <div class = "table">
-<th>Hostname</th>  <th>HostID</th><th>Launched  at</th>  <th> Fixed IP</th>
-<th> Last Collection Time (UTC )</th> <th> Last Collect Value</th>
-<th> Fixed IP </th> 
-
+<th>Hostname</th>  <th>HostID</th><th>Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
+<th> CPU Util data (UTC )</th> 
 {% for s in slist %}
-
-<tr> <td> {{ s.sobj.name }} </td>   <td> {{ s.sobj.id }} </td><td>{{ s.sobj.created}}</td>  <td>{{ s.fixedip }}</td>
-<td>{{ s.collection_time }}</td> <td>{{ s.cutil }}</td>
-<td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td> 
- </tr>  
-	
+<tr> 
+    <td> {{ s.sobj.name }} </td>   <td> {{ s.sobj.id }} </td><td>{{ s.sobj.created}}</td>  <td>{{ s.fixedip }}</td>
+    <td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td>
+    <!--td>{{ s.collection_time }}</td> <td>{{ s.cutil }}</td-->
+    <td>
+       <table>
+       {% for d in s.xlist|slice:"-60:" %}
+         	<tr>
+	    	 <td>	{{d.xdate}} &nbsp; {{d.xutil}} </td>
+   	        </tr>  
+       {% endfor %}
+     </table>
+    </td>
 {% endfor %}
+</tr>
 </table>
 </div>
-
-{% for s in slist %}
-<table>
-{% for d in s.xlist %}
-<tr>
-<td>{{d.xdate}}</td> <td>{{d.xutil}}  </td>
-</tr>
-{% endfor %}
-</table>
-{% endfor %}
 
 <p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
 down is triggerred </p>
