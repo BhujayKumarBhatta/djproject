@@ -159,10 +159,6 @@ def openstack_view(request):
             xlist = []    
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
-                    list_of_ips=s.networks.itervalues().next()
-                    fixedip=list_of_ips[0]
-                    floatip=list_of_ips[1]
-                    
                     #Gnocchi data collection for the server s 
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
                     vdate, vgran, cutil = all_cpu_util_values[-1]
@@ -173,9 +169,15 @@ def openstack_view(request):
                        xlist.append(xdict)
                 except:
                     vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
-                    fixedip='getting prepared'
-                    floatip='getting prepared'    
                     xlist = []
+                try:
+                    list_of_ips=s.networks.itervalues().next()
+                    fixedip=list_of_ips[0]
+                    floatip=list_of_ips[1]
+                except:
+                    fixedip='getting prepared'
+                    floatip='getting prepared'
+                    
                 #Create the various key value parameters for server s
                 sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
                   'collection_time' : vdatef, 'cutil': cutil,
