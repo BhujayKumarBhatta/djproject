@@ -172,7 +172,8 @@ def openstack_view(request):
                 #print (" FixedIP: %s , FloatIP: %s , Time: %s , CPU Load: % s"
                 #   % (fixedip, floatip, vdate.strftime('%Y-%m-%d %H:%M:%S'), cutil ) )
                 sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
-                  'collection_time' : vdatef, 'cutil': cutil }
+                  'collection_time' : vdatef, 'cutil': cutil,
+                  'all_cpu_util_values': all_cpu_util_values }
                 slist.append(sdict)  
                 
     except:

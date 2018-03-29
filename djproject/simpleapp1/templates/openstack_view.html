@@ -37,6 +37,16 @@ from the home url of load balancer
 {% endfor %}
 </table>
 </div>
+
+<table>
+{% for util_record in s.all_cpu_util_values %}
+{% set vdate, vgran, vutil = util_record %}
+<tr>
+<td>{{ vdate.strftime('%Y-%m-%d %H:%M:%S') }}</td> <td>{{ vutil }}{</td>
+</tr>
+{% endfor %}
+</table>
+
 <p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
 down is triggerred </p>
 
