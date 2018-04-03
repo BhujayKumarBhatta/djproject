@@ -245,6 +245,7 @@ for s in al:
                 xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
                 xlist.append(xdict)
          except:
+                all_cpu_util_values = []
                 vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
                 xlist = [] 
          try:
