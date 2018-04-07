@@ -33,7 +33,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 import forms
 
-from simpleapp1 import openstack_graph_module
+from simpleapp1.openstack_graph_module import openstack_graph_func
 
 
 process_pid_list = []
