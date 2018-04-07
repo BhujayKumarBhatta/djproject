@@ -209,7 +209,7 @@ def openstack_view(request):
 
 def openstack_graph_view(request):
     context = openstack_graph_func()
-    return render(request, 'openstack_graph_template', context)
+    return render(request, 'openstack_graph_template.html', context)
    
 # Iventory addition and update by the store manager
 class Inventory(ListView):
