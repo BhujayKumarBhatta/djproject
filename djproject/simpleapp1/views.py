@@ -135,8 +135,7 @@ def kill_load(request, procid):
     #return HttpResponse(l)
 
 # openstack minitoring view 
-def openstack_view(request):
-              
+def openstack_view(request):              
     slist = []
     sdict = {}    
     xlist = []    

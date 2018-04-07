@@ -6,20 +6,20 @@ l=[d1,d2,d3,d4]
 
 
 
->>> d= s1.networks
->>> d
+d= s1.networks
+d
 {u'pocnet': [u'70.0.0.20', u'2.2.2.27']}
->>> for k,v in d.itreitems():
+for k,v in d.itreitems():
 ...   print d[k]
 ...
 Traceback (most recent call last):
   File "<stdin>", line 1, in <module>
 AttributeError: 'dict' object has no attribute 'itreitems'
->>> for k,v in d.iteritems():
+for k,v in d.iteritems():
 ...   print d[k]
 ...
 [u'70.0.0.20', u'2.2.2.27']
->>> for k,v in d.iteritems():
+for k,v in d.iteritems():
 ...   for i in  d[k]:
 ...      print i
 ...
@@ -81,6 +81,27 @@ a
 #datetime.datetime(2018, 3, 19, 9, 25, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>)
 a.strftime('%Y-%m-%d %H:%M:%S')
 #'2018-03-19 09:25:00'
+
+>>> ds2 = datetime.datetime(2018, 3, 19, 9, 25)
+KeyboardInterrupt
+>>> import datetime
+>>> ds2 = datetime.datetime(2018, 3, 19, 9, 25)
+>>> import time
+>>> ds2
+datetime.datetime(2018, 3, 19, 9, 25)
+>>> ds2.timetuple()
+time.struct_time(tm_year=2018, tm_mon=3, tm_mday=19, tm_hour=9, tm_min=25, tm_sec=0, tm_wday=0, tm_yday=78, tm_isdst=-1)
+>>> ts=time.mktime(ds2.timetuple())
+>>> ts
+1521476700.0
+>>> int(ts)
+1521476700
+>>> 
+
+
+
+
+
 al = nova.servers.list()
 slist=[]
 for s in al:
