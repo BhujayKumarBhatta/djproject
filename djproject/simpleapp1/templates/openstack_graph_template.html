@@ -1,0 +1,151 @@
+<!doctype html> 
+<script  src="/static/simpleapp1/d3/d3.min.js"></script>
+<script src="/static/simpleapp1/rickshaw/rickshaw.min.js"></script> 
+<link type="text/css" rel="stylesheet" href="/static/simpleapp1/rickshaw/rickshaw.min.css">
+
+<a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> <br>
+<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
+
+
+<div class="col-md-6">
+<h4>{% trans "cpu utilization per minute per server" %}</h4>
+<div id="cpu_utilization"></div>
+<div id="cpu_utilization_legend"></div>
+</div>
+
+<script> 
+
+var palette = new Rickshaw.Color.Palette();
+var graph = new Rickshaw.Graph({
+  element: document.querySelector('#cpu_utilization'),
+  width: 500,
+  height: 300,
+  interpolation: 'linear',
+  onComplete: function(w) {
+    var legend = new Rickshaw.Graph.Legend({
+      element: document.querySelector('#cpu_utilization_legend'),
+      graph: w.graph
+    });
+  },
+  series: [
+	  {% for s in slist %}
+	      {
+	        color: palette.color(),
+	        name: "{{ s.fixedip }}",
+	        data: [
+	        {% for d in s.xlist|slice:"-60:" %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        ]
+	      },
+	  {% endfor %}
+	    ]
+});
+graph.render();
+ 
+var hoverDetail = new Rickshaw.Graph.HoverDetail( { 
+		    graph: graph
+} );
+		
+var yAxis = new Rickshaw.Graph.Axis.Y({
+		    graph: graph,
+});
+yAxis.render();
+
+var xAxis = new Rickshaw.Graph.Axis.Time({
+		    graph: graph
+});
+xAxis.render();
+</script> 
+
+
+
+<table >
+<div class = "table">
+<th>Hostname</th>  <th>HostID</th><th>Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
+<th> CPU Util data (UTC )</th> 
+{% for s in slist %}
+<tr> 
+    <td> {{ s.sobj.name }} </td>   <td> {{ s.sobj.id }} </td><td>{{ s.sobj.created}}</td>  <td>{{ s.fixedip }}</td>
+    <td> <a href= "http://{{ s.floatip }}/autoscale " > {{ s.floatip }} </a> </td>
+    <!--td>{{ s.collection_time }}</td> <td>{{ s.cutil }}</td-->
+    <td>
+       <table>
+       {% for d in s.xlist|slice:"-60:" %}
+         	<tr>
+	    	 <td>	{{d.xdate}} &nbsp; {{d.xutil}} </td>
+   	        </tr>  
+       {% endfor %}
+     </table>
+    </td>
+{% endfor %}
+</tr>
+</table>
+</div>
+
+<p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
+down is triggerred </p>
+
+<br>
+<table>
+{% for a in alist %}
+<th> {{ a.aname }}</th> <th> Alarm State </th>
+{% for h in a.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+{% endfor %}
+</table>
+
+
+
+<style>
+   
+   table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
+   td  {border:1px solid black;}
+   input {width:50;color:blue;font-size:8pt;width:60px}
+    .div-left{
+    float:left;
+    padding-left:10px;
+    margin-left:20px
+}
+.div-right{
+    float:right;
+    padding-right:10px;
+    margin-right:100px
+}
+.container{
+     
+    max-width:100%;
+    border:1px solid salmon;
+    
+    padding-top:5px;
+}
+
+.td-log {width:90%
+
+}
+   </style>
+
+
+<!--
+<br>
+<div class="container">
+
+<div class="div-left">
+<table>
+<th> {{ alist.0.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.0.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="div-right">
+<table>
+<th> {{ alist.1.aname }} </th>  <th>Alarm Details</th>
+ {% for h in alist.1.ahistory %}
+<tr><td> {{ h.timestamp }} </td> <td> {{ h.detail }} </td> </tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+-->

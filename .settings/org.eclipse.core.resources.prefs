@@ -1,4 +1,4 @@
 eclipse.preferences.version=1
 encoding//djproject/simpleapp1/models.py=utf-8
-encoding//djproject/simpleapp1/openstack_view_graph_module.py=utf-8
+encoding//djproject/simpleapp1/openstack_graph_module.py=utf-8
 encoding//djproject/simpleapp1/views.py=utf-8

@@ -33,6 +33,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 import forms
 
+from simpleapp1 import openstack_graph_module
+
 
 process_pid_list = []
 
@@ -204,6 +206,10 @@ def openstack_view(request):
         pass
     context = {'slist': slist, 'alist': alist}
     return render(request, 'openstack_view.html', context)
+
+def openstack_graph_view(request):
+    context = openstack_graph_func()
+    return render(request, 'openstack_graph_template', context)
    
 # Iventory addition and update by the store manager
 class Inventory(ListView):
@@ -241,6 +247,8 @@ class OSauthUpdate(UpdateView):
     form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
+    
+
     
         
     

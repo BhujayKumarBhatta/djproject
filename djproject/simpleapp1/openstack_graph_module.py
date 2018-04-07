@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from __future__ import print_function
-from django.shortcuts import render
 
-# Create your views here.
-from django.http import HttpResponse
 from django.template.defaultfilters import join
 
 from models import Openstack_Auth
@@ -15,10 +12,7 @@ from aodhclient.v2 import client as aclient
 import datetime , time
 
 # openstack minitoring view  with graphs
-def openstack_view_graph_func():              
-    slist = []
-    sdict = {}    
-    xlist = []    
+def openstack_graph_func():              
     try:
         conf=Openstack_Auth.objects.get(pk=1)
         loader = loading.get_plugin_loader('password')
@@ -36,25 +30,34 @@ def openstack_view_graph_func():
         gcon = gclient.Client('1', session=sess,
                            adapter_options={'connect_retries': 3,
                            'interface': conf.os_url_type} )
-        
         al = nova.servers.list()
+        slist = []
         for s in al:
+            xlist = []    
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
-                    all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)   
+                    #Gnocchi data collection for the server s 
+                    all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id) 
                     for cpu_util_value in all_cpu_util_values:
                        xdate, xgran, xutil = cpu_util_value
-                       xdict = {'x': int(time.mktime(xdate.timetuple())), 'y': xutil}
+                       xdict = {'xdate': int(time.mktime(xdate.timetuple())), 'xutil': xutil }
                        xlist.append(xdict)
                 except:
-                    pass
-                list_of_ips=s.networks.itervalues().next()
-                fixedip=list_of_ips[0]
-                floatip=list_of_ips[1]  
-                sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip,
-                          'xlist': xlist }
-                slist.append(sdict)  
-                
+                    all_cpu_util_values = []                    
+                    xlist = []                    
+                try:
+                    list_of_ips=s.networks.itervalues().next()
+                    fixedip=list_of_ips[0]
+                    floatip=list_of_ips[1]
+                except:
+                    fixedip='getting prepared'
+                    floatip='getting prepared'
+                    
+                #Create the various key value parameters for server
+                sdict = {'sobj': s, 'fixedip': fixedip, 
+                         'floatip': floatip, 'xlist': xlist }
+                #add all the servers key value in a list for template to unpack 
+                slist.append(sdict)                  
     except:
         pass
     alist = []
