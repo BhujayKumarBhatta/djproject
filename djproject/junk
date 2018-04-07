@@ -189,7 +189,7 @@ auth = loader.load_from_options(auth_url= a.os_url,
                                      project_domain_name= a.os_project_domain_name,
                                      user_domain_name=  a.os_user_domain_name,
                                      username=  a.os_user_name,
-                                     password= a.os_password,
+                                     password= a.os_password_encrypt,
                                      tenant_name= a.os_tenant_name,
                                      project_name= a.os_project_name, 
                                      )
@@ -198,7 +198,7 @@ nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
 gcon = gclient.Client('1', session=sess, adapter_options={'connect_retries': 3,'interface': a.os_url_type} )
 slist=[]        
 al = nova.servers.list()
-        for s in al:
+for s in al:
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
                 try:
                     all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)     
@@ -214,6 +214,87 @@ al = nova.servers.list()
                 sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip, 
                   'collection_time' : vdatef, 'cutil': cutil }
                 slist.append(sdict)                
+
+from dateutil import tz
+HERE=tz.gettz('Asia/Kolkata')
+HERE
+tzfile('/usr/share/zoneinfo/Asia/Kolkata')
+vdateL=vdate.replace(tzinfo=HERE)
+vdateL.strftime('%y-%m-%d %H:%M:%S')
+'18-03-26 12:50:00'
+vdate.strftime('%y-%m-%d %H:%M:%S')
+'18-03-26 12:50:00'
+ vdateL
+datetime.datetime(2018, 3, 26, 12, 50, tzinfo=tzfile('/usr/share/zoneinfo/Asia/Kolkata'))
+
               
+vdateL=vdateL + datetime.timedelta(hours=5)
+vdateL
+
+
+
+from simpleapp1.models import Laptop, Order, Openstack_Auth
+from keystoneauth1 import loading , session
+from novaclient import client as novaclient
+from gnocchiclient import client as gclient
+import datetime  
+import time            
+a=Openstack_Auth.objects.get(pk=1)
+loader = loading.get_plugin_loader('password')
+auth = loader.load_from_options(auth_url= a.os_url,
+                                     project_domain_name= a.os_project_domain_name,
+                                     user_domain_name=  a.os_user_domain_name,
+                                     username=  a.os_user_name,
+                                     password= a.os_password_encrypt,
+                                     tenant_name= a.os_tenant_name,
+                                     project_name= a.os_project_name, 
+                                     )
+sess = session.Session(auth=auth)
+nova = novaclient.Client('2', session=sess,endpoint_type= a.os_url_type)
+gcon = gclient.Client('1', session=sess, adapter_options={'connect_retries': 3,'interface': a.os_url_type} )    
+al = nova.servers.list()
+slist = []
+for s in al:
+    xlist = []
+    if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
+         try:
+            all_cpu_util_values=gcon.metric.get_measures('cpu_util',resource_id=s.id)
+            vdate, vgran, cutil = all_cpu_util_values[-1]
+            vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
+            for cpu_util_value in all_cpu_util_values:
+                xdate, xgran, xutil = cpu_util_value
+                xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
+                xlist.append(xdict)
+         except:
+                all_cpu_util_values = []
+                vdatef, vgran, cutil = ('try after 10 Minutes', 'try after 10 Minutes', 'try after 10 Minutes')
+                xlist = [] 
+         try:
+            list_of_ips=s.networks.itervalues().next()
+            fixedip=list_of_ips[0]
+            floatip=list_of_ips[1]  
+         except:
+            fixedip='getting prepared'
+            floatip='getting prepared'              
+              
+         sdict = {'sobj': s, 'fixedip': fixedip, 'floatip': floatip,
+                  'collection_time' : vdatef, 'cutil': cutil,
+                  'all_cpu_util_values': all_cpu_util_values,
+                  'xlist': xlist }
+         slist.append(sdict)
+
+
+
+<!--script type="text/javascript"  src="http://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]} )
+</script-->
+
+<!-->
+{% for s in slist %}
+<script src="http://yui.yahooapis.com/3.10.0/build/yui/yui-min.js"></script>
+{{ s.chart.as_html }}
+{% endfor %}
+<-->
 
 
