@@ -12,15 +12,18 @@
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a><br>
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
 
-
-<!-- div class="col-md-6"></div-->
+<table>
+<tr>
+<td>
 <h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
 <div id="cpu_utilization"></div>
 <div id="cpu_utilization_legend"></div>
-
+</td>
+<td>
 <div id="textdata" style="width: 25%; float:right" > I am here </div>
-
-
+</td>
+</tr>
+</table>
 <script> 
 
 var palette = new Rickshaw.Color.Palette();
