@@ -36,10 +36,10 @@ var graph = new Rickshaw.Graph({
 	  //{% for s in slist %}
 	      {
 	        color: palette.color(),
-	        name: "{{ slist[0].fixedip }},cpu: - ",
+	        name: "{{ slist.0.fixedip }},cpu: - ",
 	        data: [
 	        //{% for d in s.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
-	        {% for d in slist[0].xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        {% for d in slist.0.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
 	        ]
 	      },
 	  //{% endfor %}
