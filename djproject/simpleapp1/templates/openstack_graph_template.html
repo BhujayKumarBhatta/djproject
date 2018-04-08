@@ -5,19 +5,12 @@
 <!doctype html> 
 <script src='{% static "simpleapp1/cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
-<link href='{% static "simpleapp1/simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet' >
+<link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet' >
 
 
 <a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> <br>
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
-
-
-<div class="col-md-6">
-<h4>{% trans "cpu utilization per minute per server" %}</h4>
-<div id="cpu_utilization"></div>
-<div id="cpu_utilization_legend"></div>
-</div>
 
 <script> 
 
@@ -64,12 +57,18 @@ xAxis.render();
 
 <div class="container">
 
-<div class="div-leftt"></div>
+<div class="div-leftt">
+<div class="col-md-6">
+<h4>{% trans "cpu utilization per minute per server" %}</h4>
+<div id="cpu_utilization"></div>
+<div id="cpu_utilization_legend"></div>
+</div>
+</div>
 
 <div class="div-right"> 
 <table >
 <div class = "table">
-<th>Hostname</th>  <th>HostID</th><th>Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
+<th style="width:20%">Hostname</th>  <th style="width:15%">HostID</th><th>Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
 <th> CPU Util data (UTC )</th> 
 {% for s in slist %}
 <tr> 
@@ -80,7 +79,7 @@ xAxis.render();
        <table>
        {% for d in s.xlist|slice:"-3:" %}
          	<tr>
-	    	 <td>	{{d.xdate}} &nbsp; {{d.xutil}} </td>
+	    	 <td> {{d.xutil}} </td>
    	        </tr>  
        {% endfor %}
      </table>
