@@ -12,14 +12,6 @@
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a><br>
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
 
-
-<div class="col-md-6">
-<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
-<div id="cpu_utilization"  style="width:50% ; float:left"></div>
-<div id="cpu_utilization_legend" style="width:50% ; float:left"></div>
-</div>
-
-
 <script> 
 
 var palette = new Rickshaw.Color.Palette();
@@ -63,10 +55,18 @@ var xAxis = new Rickshaw.Graph.Axis.Time({
 xAxis.render();
 </script> 
 
-<table style="width:40%; float:right" >
 
-<th style="width:10%">Hostname</th>  <th style="width:7%">HostID</th><th style="width:7%">Launched  at</th> 
-<th style="width:5% > Fixed IP</th> <th style="width:5%> Float IP </th>
+
+<div class="col-md-6">
+<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
+<div id="cpu_utilization"  ></div>
+<div id="cpu_utilization_legend" ></div>
+</div>
+
+<br>
+<table >
+<th style="width:20%">Hostname</th>  <th style="width:20%">HostID</th><th style="width:10%">Launched  at</th> 
+<th style="width:10% > Fixed IP</th> <th style="width:5%> Float IP </th>
 <th style="width:5%> CPU Util data (UTC )</th> 
 {% for s in slist %}
 <tr> 
