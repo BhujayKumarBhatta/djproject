@@ -3,16 +3,14 @@
 {% load static %}
 
 <!doctype html> 
-<!-- script src='{% static "simpleapp1/d3/d3.js" %}' type='text/javascript' charset='utf-8'></script-->
-<!-- script src='https://gist.github.com/davo/4186300.js' type='text/javascript' charset='utf-8'></script-->
-
-<script src='{% static "cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
-<script src='{% static "cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
-<link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet' >
+<script src='{% static "simpleapp1/cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
+<script src='{% static "simpleapp1/cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
+<link href='{% static "simpleapp1/simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet' >
 
 
 <a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> <br>
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a>
+<a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
 
 
 <div class="col-md-6">
@@ -26,8 +24,8 @@
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
-  width: 500,
-  height: 300,
+  width: 800,
+  height: 400,
   interpolation: 'linear',
   onComplete: function(w) {
     var legend = new Rickshaw.Graph.Legend({
@@ -41,7 +39,7 @@ var graph = new Rickshaw.Graph({
 	        color: palette.color(),
 	        name: "{{ s.fixedip }}",
 	        data: [
-	        {% for d in s.xlist|slice:"-60:" %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        {% for d in s.xlist|slice:"-160:" %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
 	        ]
 	      },
 	  {% endfor %}
@@ -64,8 +62,11 @@ var xAxis = new Rickshaw.Graph.Axis.Time({
 xAxis.render();
 </script> 
 
+<div class="container">
 
+<div class="div-leftt"></div>
 
+<div class="div-right"> 
 <table >
 <div class = "table">
 <th>Hostname</th>  <th>HostID</th><th>Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
@@ -77,7 +78,7 @@ xAxis.render();
     <!--td>{{ s.collection_time }}</td> <td>{{ s.cutil }}</td-->
     <td>
        <table>
-       {% for d in s.xlist|slice:"-60:" %}
+       {% for d in s.xlist|slice:"-3:" %}
          	<tr>
 	    	 <td>	{{d.xdate}} &nbsp; {{d.xutil}} </td>
    	        </tr>  
@@ -88,6 +89,16 @@ xAxis.render();
 </tr>
 </table>
 </div>
+
+
+
+
+
+</div></div>
+
+
+
+
 
 <p> Scroll down to see the Alarm status for high cpu and low cpu threshold. When the state is transitioned to alarm the action to scaleup or scale
 down is triggerred </p>
@@ -106,18 +117,20 @@ down is triggerred </p>
 
 <style>
    
-   table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
-   td  {border:1px solid black;}
-   input {width:50;color:blue;font-size:8pt;width:60px}
-    .div-left{
+table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
+td  {border:1px solid black;}
+  
+input {width:50;color:blue;font-size:8pt;width:60px}
+   
+.div-left{
     float:left;
-    padding-left:10px;
-    margin-left:20px
+    padding-left:2px;
+    margin-left:2px
 }
 .div-right{
     float:right;
-    padding-right:10px;
-    margin-right:100px
+    padding-right:2px;
+    margin-right:2px
 }
 .container{
      

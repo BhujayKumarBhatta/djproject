@@ -33,7 +33,7 @@ urlpatterns = [
     url(r'^osauth/$', views.OSauth.as_view(), name='osauth'),
     url(r'^osauth/add/$', views.OSauthAdd.as_view(), name='osauth_add'),
     url(r'^osauth/update(?P<pk>[\w-]+)$', views.OSauthUpdate.as_view(), name='osauth_update'),
-    url(r'^openstackgraph/', views.openstack_graph_view, name='openstack_graph_view'),
+    url(r'^openstackgraph/', views.openstack_graph_view, name='openstackgraph'),
     
     
     #url(r'^business/', views.business, name='business'),
