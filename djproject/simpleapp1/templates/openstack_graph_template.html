@@ -19,14 +19,14 @@
 <div id="cpu_utilization_legend"></div>
 
 <div id="textdata" style="width: 25%" float="right"> I am here </div>
-
+</div>
 
 <script> 
 
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
-  width: 800,
+  width: 600,
   height: 400,
   interpolation: 'linear',
   onComplete: function(w) {
@@ -41,7 +41,7 @@ var graph = new Rickshaw.Graph({
 	        color: palette.color(),
 	        name: "{{ s.fixedip }},cpu: - ",
 	        data: [
-	        {% for d in s.xlist|slice:"160:" %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        {% for d in s.xlist %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
 	        ]
 	      },
 	  {% endfor %}
@@ -64,14 +64,7 @@ var xAxis = new Rickshaw.Graph.Axis.Time({
 xAxis.render();
 </script> 
 
-<div class="container">
-
-<div class="div-leftt">
-
-</div>
-
-<div class="div-right"> 
-<table style="width:40%" >
+<table style="width:40%; float:right" >
 
 <th style="width:20%">Hostname</th>  <th style="width:15%">HostID</th><th style="width:10%">Launched  at</th>  <th> Fixed IP</th> <th> Float IP </th>
 <th> CPU Util data (UTC )</th> 
@@ -92,15 +85,6 @@ xAxis.render();
 {% endfor %}
 </tr>
 </table>
-</div>
-
-
-
-
-
-</div></div>
-
-
 
 
 
