@@ -23,8 +23,8 @@
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
-  width: 600,
-  height: 400,
+  width: 900,
+  height: 300,
   interpolation: 'linear',
   onComplete: function(w) {
     var legend = new Rickshaw.Graph.Legend({
@@ -38,7 +38,7 @@ var graph = new Rickshaw.Graph({
 	        color: palette.color(),
 	        name: "{{ s.fixedip }},cpu: - ",
 	        data: [
-	        {% for d in s.xlist %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        {% for d in s.xlist|  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
 	        ]
 	      },
 	  {% endfor %}
