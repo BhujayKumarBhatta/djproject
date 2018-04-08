@@ -5,7 +5,7 @@
 <!doctype html> 
 <script src='{% static "simpleapp1/cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
-<!-- link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet' -->
+<link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet'>
 
 
 <a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> <br>
@@ -33,15 +33,16 @@ var graph = new Rickshaw.Graph({
     });
   },
   series: [
-	  {% for s in slist %}
+	  //{% for s in slist %}
 	      {
 	        color: palette.color(),
-	        name: "{{ s.fixedip }},cpu: - ",
+	        name: "{{ slist[0].fixedip }},cpu: - ",
 	        data: [
-	        {% for d in s.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        //{% for d in s.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
+	        {% for d in slist[0].xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
 	        ]
 	      },
-	  {% endfor %}
+	  //{% endfor %}
 	    ]
 });
 graph.render();
