@@ -20,7 +20,6 @@
 </div>
 
 <script> 
-
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
@@ -67,9 +66,9 @@ xAxis.render();
 
 <br>
 <table >
-<th style="width:20%">Hostname</th>  <th style="width:20%">HostID</th><th style="width:10%">Launched  at</th> 
-<th style="width:10% > Fixed IP</th> <th style="width:5%> Float IP </th>
-<th style="width:5%> CPU Util data (UTC )</th> 
+<th>Hostname</th>  <th>HostID</th><th>Launched  at</th> 
+<th> Fixed IP</th> <th> Float IP </th>
+<th> CPU Util data (UTC )</th> 
 {% for s in slist %}
 <tr> 
     <td> {{ s.sobj.name }} </td>   <td> {{ s.sobj.id }} </td><td>{{ s.sobj.created}}</td>  <td>{{ s.fixedip }}</td>
