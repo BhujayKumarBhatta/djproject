@@ -154,6 +154,7 @@ def openstack_view(request):
                            'interface': conf.os_url_type} )
         al = nova.servers.list()
         slist = []
+        td = datetime.timedelta(hours=5, minutes=30)
         for s in al:
             xlist = []    
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
@@ -163,7 +164,8 @@ def openstack_view(request):
                     vdate, vgran, cutil = all_cpu_util_values[-1]
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
                     for cpu_util_value in all_cpu_util_values:
-                       xdate, xgran, xutil = cpu_util_value
+                       udate, xgran, xutil = cpu_util_value
+                       xdate = udate+td
                        xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
                        xlist.append(xdict)
                 except:

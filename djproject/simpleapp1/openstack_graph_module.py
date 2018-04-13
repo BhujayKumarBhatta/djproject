@@ -44,7 +44,7 @@ def openstack_graph_func():
                        xlist.append(xdict)
                 except:
                     all_cpu_util_values = []                    
-                    xlist = []                    
+                    xlist = []                      
                 try:
                     list_of_ips=s.networks.itervalues().next()
                     fixedip=list_of_ips[0]
