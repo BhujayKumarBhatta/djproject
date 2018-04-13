@@ -205,10 +205,10 @@ def openstack_view(request):
                aname = myalarm['name']
                ahistory_with_utc = acon.alarm_history.get(aid)
                for h in ahistory_with_utc:
-                   htime = datetime.datetime.strptime(h.timestamp, '%Y-%m-%dT%H:%M:%S.%f')
+                   htime = datetime.datetime.strptime(h['timestamp'], '%Y-%m-%dT%H:%M:%S.%f')
                    htime_local = htime+td
                    ht_str = htime_local.strftime('%Y-%m-%dT%H:%M:%S.%f')
-                   ahistory_with_localtime.append({'timestamp': ht_str, 'detail': h.detail})
+                   ahistory_with_localtime.append({'timestamp': ht_str, 'detail': h['detail']})
                adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory_with_localtime }
                alist.append(adict)
     except:
