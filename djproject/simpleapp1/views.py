@@ -192,6 +192,8 @@ def openstack_view(request):
     except:
         pass
     alist = []
+    ahistory_with_localtime = []
+    td = datetime.timedelta(hours=5, minutes=30)
     try:
         acon =  aclient.Client(session=sess,interface= 'internalURL')
         for myalarm in acon.alarm.list():
@@ -201,8 +203,13 @@ def openstack_view(request):
            if conf.os_stack_id in rq:
                aid = myalarm['alarm_id']
                aname = myalarm['name']
-               ahistory = acon.alarm_history.get(aid)
-               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory }
+               ahistory_with_utc = acon.alarm_history.get(aid)
+               for h in ahistory_with_utc:
+                   htime = datetime.datetime.strptime(h.timestamp, '%Y-%m-%dT%H:%M:%S.%f')
+                   htime_local = htime+td
+                   ht_str = htime_local.strftime('%Y-%m-%dT%H:%M:%S.%f')
+                   ahistory_with_localtime.append({'timestamp': ht_str, 'detail': h.detail})
+               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory_with_localtime }
                alist.append(adict)
     except:
         pass
