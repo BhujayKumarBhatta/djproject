@@ -5,6 +5,8 @@
 <!doctype html> 
 <script src='{% static "simpleapp1/cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
+<script src='{% static "simpleapp1/cloudkitty/js/moment.js" %}' type='text/javascript' charset='utf-8'></script>
+<script src='{% static "simpleapp1/cloudkitty/js/moment-with-locales.js" %}' type='text/javascript' charset='utf-8'></script>
 <link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet'>
 
 
@@ -20,6 +22,7 @@
 </div>
 
 <script> 
+var unit_formatter = name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a')
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
@@ -58,6 +61,7 @@ yAxis.render();
 
 var xAxis = new Rickshaw.Graph.Axis.Time({
 		    graph: graph
+		    timeUnit: unit_formatter
 });
 xAxis.render();
 </script> 
