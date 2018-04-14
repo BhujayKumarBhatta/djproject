@@ -22,7 +22,7 @@
 </div>
 
 <script> 
-var unit_formatter = name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a')
+var unit_formatter = name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a');
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
