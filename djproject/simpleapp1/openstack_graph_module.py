@@ -74,7 +74,7 @@ def openstack_graph_func():
            if conf.os_stack_id in rq:
                aid = myalarm['alarm_id']
                aname = myalarm['name']
-               ahistory = acon.alarm_history.get(aid)
+               ahistory_with_utc = acon.alarm_history.get(aid)
                for h in ahistory_with_utc:
                    htime = datetime.datetime.strptime(h['timestamp'], '%Y-%m-%dT%H:%M:%S.%f')
                    htime_local = htime+td
