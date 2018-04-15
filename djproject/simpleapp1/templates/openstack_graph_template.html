@@ -10,8 +10,8 @@
 <link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet'>
 
 
-<a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> <br>
-<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a><br>
+<a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> &nbsp 
+<a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a> n&nbsp
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
 
 
@@ -26,8 +26,8 @@
 var palette = new Rickshaw.Color.Palette();
 var graph = new Rickshaw.Graph({
   element: document.querySelector('#cpu_utilization'),
-  width: 900,
-  height: 300,
+  width: 600,
+  height: 200,
   renderer: 'line',
   interpolation: 'linear',
   onComplete: function(w) {
