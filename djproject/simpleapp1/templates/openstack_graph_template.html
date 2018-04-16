@@ -168,10 +168,12 @@ down is triggerred </p>
 
 
 
-{% for a in alist %}
- 
+{% for a in alist %}  
+  {% if "high"  in a.name %}
+     <p> gine inside loop {{ a.name }} </p>
      {{ a.ahistory|slice:"-1:" }}
- 
+     
+   {% endif %}
 {% endfor %}
 
 
