@@ -35,15 +35,6 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 }
 </style>
 
-<script>
-{% for a in alist %}
-  {% if "cpu_alalrm_high" in  a.aname %}  
-     document.getElementById('alarm-area').innerHTML= {{ a.ahistory|slice:"-1:" }}
-     {{ a.ahistory|slice:"-1:" }}
-  {% endif %}    
-{% endfor %}
-</script>
-
 </head>
 
 <body>
@@ -64,12 +55,32 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 		<img id="cpuhigh" src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}" style="width:80px"/>
 		<figcaption>CPU High Alarm</figcaption>
 		</figure>	
+                       <script>
+            		{% for a in alist %}
+  				{% if 'high'  in a.aname %}
+     					{% if 'alarm' in  a.ahistory.0.detail %}
+        					document.getElementById('cpuhigh').src="/static/simpleapp1/pics/pic_bulbon.gif";
+     					{% endif %}
+   				{% endif %}
+			{% endfor %}
+		       </script>
+
 	    </td>	    
 	    <td>	    		
 		<figure style="width:80px">
 		<img id="cpulow" src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}" style="width:80px"/>	
 		<figcaption>CPU Low Alarm </figcaption>
 		</figure>
+                     <script>
+                        {% for a in alist %}
+                                {% if 'high'  in a.aname %}
+                                        {% if 'alarm' in  a.ahistory.0.detail %}
+                                                document.getElementById('cpulow').src="/static/simpleapp1/pics/pic_bulbon.gif";
+                                        {% endif %}
+                                {% endif %}
+                        {% endfor %}
+                       </script>
+
 	    </td>
 	    </tr>
 	    </table>		
@@ -165,17 +176,15 @@ down is triggerred </p>
 {% endfor %}
 </table>
 
-
-
-
 {% for a in alist %}  
-  {% if "high"  in a.name %}
-     <p> gine inside loop {{ a.name }} </p>
-     {{ a.ahistory|slice:"-1:" }}
-     
+  {% if 'high'  in a.aname %}
+     {{ a.ahistory.0.detail }}
+     {% if 'alarm' in  a.ahistory.0.detail %}
+       <p> Alarm is ON </p>
+        document.getElementById('cpuhigh').src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}";
+     {% endif %}
    {% endif %}
 {% endfor %}
-
 
 </body>
 
