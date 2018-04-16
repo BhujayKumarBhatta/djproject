@@ -34,6 +34,17 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 .td-log {width:90%
 }
 </style>
+
+<script>
+{% for a in alist %}
+  {% if "cpu_alalrm_high" in  a.aname %}  
+	    {%  if "ok" in   a.ahistory.0|slice: "-1:"  %}
+	      document.getElementById('cpuhigh').src='pic_bulbon.gif'
+	    {% endif %} 
+  {% endif %}    
+{% endfor %}
+</script>
+
 </head>
 
 <body>
