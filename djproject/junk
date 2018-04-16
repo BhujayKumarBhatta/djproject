@@ -81,6 +81,54 @@ a
 #datetime.datetime(2018, 3, 19, 9, 25, tzinfo=<FixedOffset u'+00:00' datetime.timedelta(0)>)
 a.strftime('%Y-%m-%d %H:%M:%S')
 #'2018-03-19 09:25:00'
+
+#ds2 = datetime.datetime(2018, 3, 19, 9, 25)
+KeyboardInterrupt
+#import datetime
+#ds2 = datetime.datetime(2018, 3, 19, 9, 25)
+#import time
+#ds2
+datetime.datetime(2018, 3, 19, 9, 25)
+#ds2.timetuple()
+time.struct_time(tm_year=2018, tm_mon=3, tm_mday=19, tm_hour=9, tm_min=25, tm_sec=0, tm_wday=0, tm_yday=78, tm_isdst=-1)
+#ts=time.mktime(ds2.timetuple())
+#ts
+1521476700.0
+#int(ts)
+1521476700
+# 
+
+gnocchi is retruing utc value  , lets assme it as u 
+# u=datetime.utcnow()
+# u
+datetime.datetime(2018, 4, 10, 18, 22, 29, 573000)
+# u.strftime('%y-%m-%d %H:%M:%S')
+'18-04-10 18:22:29'
+
+We want to add 5:30 to that to get IST , lets assume it td 
+
+# td=datetime.timedelta(hours=5,minutes=30)
+# td
+datetime.timedelta(0, 19800)
+
+Adding  5:30 with utc time gives the correct local time as l 
+# l=u+td
+# l
+# l.strftime('%y-%m-%d %H:%M:%S')
+'18-04-10 23:52:29'
+
+#this l  we can convert to  integers to pass  it to rickshaw 
+
+time.mktime(l.timetuple())
+
+
+
+
+
+
+
+
+
 al = nova.servers.list()
 slist=[]
 for s in al:

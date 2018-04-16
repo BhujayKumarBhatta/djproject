@@ -33,6 +33,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 import forms
 
+from simpleapp1.openstack_graph_module import openstack_graph_func
+
 
 process_pid_list = []
 
@@ -152,6 +154,7 @@ def openstack_view(request):
                            'interface': conf.os_url_type} )
         al = nova.servers.list()
         slist = []
+        td = datetime.timedelta(hours=5, minutes=30)
         for s in al:
             xlist = []    
             if 'asg_name' in s.metadata and s.metadata['asg_name']=='autoscale_demo_1':
@@ -161,7 +164,8 @@ def openstack_view(request):
                     vdate, vgran, cutil = all_cpu_util_values[-1]
                     vdatef = vdate.strftime('%Y-%m-%d %H:%M:%S')
                     for cpu_util_value in all_cpu_util_values:
-                       xdate, xgran, xutil = cpu_util_value
+                       udate, xgran, xutil = cpu_util_value
+                       xdate = udate+td
                        xdict = {'xdate': xdate.strftime('%Y-%m-%d %H:%M:%S'), 'xutil': xutil}
                        xlist.append(xdict)
                 except:
@@ -188,6 +192,8 @@ def openstack_view(request):
     except:
         pass
     alist = []
+    ahistory_with_localtime = []
+    td = datetime.timedelta(hours=5, minutes=30)
     try:
         acon =  aclient.Client(session=sess,interface= 'internalURL')
         for myalarm in acon.alarm.list():
@@ -197,13 +203,22 @@ def openstack_view(request):
            if conf.os_stack_id in rq:
                aid = myalarm['alarm_id']
                aname = myalarm['name']
-               ahistory = acon.alarm_history.get(aid)
-               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory }
+               ahistory_with_utc = acon.alarm_history.get(aid)
+               for h in ahistory_with_utc:
+                   htime = datetime.datetime.strptime(h['timestamp'], '%Y-%m-%dT%H:%M:%S.%f')
+                   htime_local = htime+td
+                   ht_str = htime_local.strftime('%Y-%m-%dT%H:%M:%S.%f')
+                   ahistory_with_localtime.append({'timestamp': ht_str, 'detail': h['detail']})
+               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory_with_localtime }
                alist.append(adict)
     except:
         pass
     context = {'slist': slist, 'alist': alist}
     return render(request, 'openstack_view.html', context)
+
+def openstack_graph_view(request):
+    context = openstack_graph_func()
+    return render(request, 'openstack_graph_template.html', context)
    
 # Iventory addition and update by the store manager
 class Inventory(ListView):
@@ -241,6 +256,8 @@ class OSauthUpdate(UpdateView):
     form_class = forms.OSAuthEditForm
     template_name = 'osauth_add.html'
     success_url = reverse_lazy('simpleapp1:osauth')
+    
+
     
         
     
