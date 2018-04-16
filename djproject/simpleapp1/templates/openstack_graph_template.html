@@ -39,6 +39,7 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 {% for a in alist %}
   {% if "cpu_alalrm_high" in  a.aname %}  
      document.getElementById('alarm-area').innerHTML= {{ a.ahistory|slice:"-1:" }}
+     {{ a.ahistory|slice:"-1:" }}
   {% endif %}    
 {% endfor %}
 </script>
