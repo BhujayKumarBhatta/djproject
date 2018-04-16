@@ -169,7 +169,7 @@ down is triggerred </p>
 
 <script>
 {% for a in alist %}
-  {% if "cpu_alalrm_high" in  a.aname %}  
+  {% if "cpu_alarm_high" in  a.aname %}  
      document.getElementById('alarm-area').innerHTML= {{ a.ahistory|slice:"-1:" }}
      {{ a.ahistory|slice:"-1:" }}
   {% endif %}    
