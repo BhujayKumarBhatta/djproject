@@ -34,72 +34,22 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 .td-log {width:90%
 }
 </style>
-
-<script> 
-//var unit_formatter = {name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a')};
-var palette = new Rickshaw.Color.Palette();
-var graph = new Rickshaw.Graph({
-  element: document.querySelector('#cpu_utilization'),
-  width: 600,
-  height: 200,
-  renderer: 'line',
-  interpolation: 'linear',
-  onComplete: function(w) {
-    var legend = new Rickshaw.Graph.Legend({
-      element: document.querySelector('#cpu_utilization_legend'),
-      graph: w.graph
-    });
-  },
-  series: [
-	  {% for s in slist %}
-	      {
-	        color: palette.color(),
-	        //name: "{{ slist.0.fixedip }},cpu: - ",
-	        name: "{{ s.fixedip }},cpu: - ",
-	        data: [
-	        {% for d in s.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
-	        //{% for d in slist.0.xlist|slice:"-60:"  %} {x: {{ d.xdate }}, y: {{ d.xutil }}}, {% endfor %}
-	        ]
-	      },
-	  {% endfor %}
-	    ]
-});
-graph.render();
- 
-var hoverDetail = new Rickshaw.Graph.HoverDetail( { 
-		    graph: graph,
-		    xFormatter: function(x) {
-                return new Date( x * 1000 ).toLocaleString();
-                    }
-
-} );
-		
-var yAxis = new Rickshaw.Graph.Axis.Y({
-		    graph: graph,
-});
-yAxis.render();
-
-var xAxis = new Rickshaw.Graph.Axis.Time({
-		    graph: graph,
-		    timeFixture: new Rickshaw.Fixtures.Time.Local()
-
-});
-xAxis.render();
-</script> 
-
 </head>
 
 <body>
-
 <a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> &nbsp 
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a> n&nbsp
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
-
-
-<div class="col-md-6">
-<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
-<div id="cpu_utilization"  ></div>
-<div id="cpu_utilization_legend" ></div>
+<div id="container">
+	<div class="col-md-6" style="width:610px; float:left;">
+	<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
+	<div id="cpu_utilization"  ></div>
+	<div id="cpu_utilization_legend" ></div>
+	</div>
+	<div id="alarm-area" style="width:510px; float:right;">
+	<img id="cpuhigh" src="pic_bulbon.gif" style="width:100px">
+	<img id="cpulow" src="pic_bulboff.gif" style="width:100px">
+	</div>
 </div>
 <script> 
 //var unit_formatter = {name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a')};
