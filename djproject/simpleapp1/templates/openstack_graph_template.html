@@ -3,22 +3,89 @@
 {% load static %}
 
 <!doctype html> 
+<html>
+<head>
 <script src='{% static "simpleapp1/cloudkitty/js/d3.min.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/rickshaw.min.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/moment.js" %}' type='text/javascript' charset='utf-8'></script>
 <script src='{% static "simpleapp1/cloudkitty/js/moment-with-locales.js" %}' type='text/javascript' charset='utf-8'></script>
 <link href='{% static "simpleapp1/rickshaw/rickshaw.min.css" %}' type='text/css'  rel='stylesheet'>
 
+<style>   
+table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
+td  {border:1px solid black;}  
+input {width:50;color:blue;font-size:8pt;width:60px}   
+.div-left{
+    float:left;
+    padding-left:2px;
+    margin-left:2px
+}
+.div-right{
+    float:right;
+    padding-right:2px;
+    margin-right:2px
+}
+.container{     
+    max-width:100%;
+    border:1px solid salmon;    
+    padding-top:5px;
+}
 
+.td-log {width:90%
+}
+</style>
+
+</head>
+
+<body>
 <a href= "{% url 'simpleapp1:index'  %}"> Go to Home page</a> &nbsp 
 <a href= "{% url 'simpleapp1:osauth'  %}"> Click to  Enter Openstack authentication information here</a> &nbsp
 <a href= "{% url 'simpleapp1:openstack'  %}"> Switch to Openstack Monitoring Text View</a>
-<div class="col-md-6">
-<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
-<div id="cpu_utilization"  ></div>
-<div id="cpu_utilization_legend" ></div>
-</div>
+<div id="container">
+	<div class="col-md-6" style="width:610px; float:left;">
+	<h4>{% trans "cpu utilization per 5 minute per server" %}</h4>
+	<div id="cpu_utilization"  ></div>
+	<div id="cpu_utilization_legend" ></div>
+	</div>
+	<div id="alarm-area" style="width:590px; float:right;">
+	    <table>
+	    <tr>
+	    <td>
+	    <figure style="width:80px">
+		<img id="cpuhigh" src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}" style="width:80px"/>
+		<figcaption>CPU High Alarm</figcaption>
+		</figure>	
+                       <script>
+            		{% for a in alist %}
+  				{% if 'high'  in a.aname %}
+     					{% if 'alarm' in  a.ahistory.0.detail %}
+        					document.getElementById('cpuhigh').src="/static/simpleapp1/pics/pic_bulbon.gif";
+     					{% endif %}
+   				{% endif %}
+			{% endfor %}
+		       </script>
 
+	    </td>	    
+	    <td>	    		
+		<figure style="width:80px">
+		<img id="cpulow" src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}" style="width:80px"/>	
+		<figcaption>CPU Low Alarm </figcaption>
+		</figure>
+                     <script>
+                        {% for a in alist %}
+                                {% if 'low'  in a.aname %}
+                                        {% if 'alarm' in  a.ahistory.0.detail %}
+                                                document.getElementById('cpulow').src="/static/simpleapp1/pics/pic_bulbon.gif";
+                                        {% endif %}
+                                {% endif %}
+                        {% endfor %}
+                       </script>
+
+	    </td>
+	    </tr>
+	    </table>		
+	</div>
+</div>
 <script> 
 //var unit_formatter = {name: '5 hour', seconds: 3600 * 5, formatter: (d) -> moment(d).format('h:mm a')};
 var palette = new Rickshaw.Color.Palette();
@@ -71,9 +138,6 @@ var xAxis = new Rickshaw.Graph.Axis.Time({
 xAxis.render();
 </script> 
 
-
-
-
 <br>
 <table >
 <th>Hostname</th>  <th>HostID</th><th>Launched  at</th> 
@@ -111,37 +175,20 @@ down is triggerred </p>
 {% endfor %}
 </table>
 
+{% for a in alist %}  
+  {% if 'high'  in a.aname %}
+     {{ a.ahistory.0.detail }}
+     {% if 'alarm' in  a.ahistory.0.detail %}
+       <p> Alarm is ON </p>
+        document.getElementById('cpuhigh').src="{% static 'simpleapp1/pics/pic_bulboff.gif' %}";
+     {% endif %}
+   {% endif %}
+{% endfor %}
+
+</body>
 
 
-<style>
-   
-table {font-size:8pt;width:100%;color:blue;border:0px solid black;}
-td  {border:1px solid black;}
-  
-input {width:50;color:blue;font-size:8pt;width:60px}
-   
-.div-left{
-    float:left;
-    padding-left:2px;
-    margin-left:2px
-}
-.div-right{
-    float:right;
-    padding-right:2px;
-    margin-right:2px
-}
-.container{
-     
-    max-width:100%;
-    border:1px solid salmon;
-    
-    padding-top:5px;
-}
-
-.td-log {width:90%
-
-}
-   </style>
+</html>
 
 
 <!--

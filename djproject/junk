@@ -325,3 +325,30 @@ for s in al:
 <-->
 
 
+
+echo 'http_proxy=http://10.172.100.14:3128/'|sudo tee -a  /etc/environment
+echo 'https_proxy=http://10.172.100.14:3128/'|sudo tee -a  /etc/environment
+sudo apt update            
+export DEBIAN_FRONTEND=noninteractive
+sudo -E apt-get -q -y install apache2 libapache2-mod-wsgi mysql-common git python-pip  python-mysqldb  mysql-client-core-5.7
+hip=$(sudo hostname -I)
+hname=$(sudo hostname)
+sudo echo $hip  $hname appserver |sudo tee -a /etc/hosts
+#change this later to get db ip automatically 
+sudo echo 200.1.1.22 dbhost |sudo tee -a /etc/hosts
+sudo -E -H pip install --upgrade pip
+sudo -E -H pip install django psutil  mysqlclient python-novaclient gnocchiclient aodhclient django-fernet-fields
+sudo git clone https://github.com/BhujayKumarBhatta/djproject.git /opt
+#http://10.10.66.55/bhujay/autoscale-app.git
+cd /opt/djproject 
+python manage.py makemigrations simpleapp1 -noinput
+python manage.py migrate simpleapp1
+python manage.py migrate 
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin2', 'admin@example.com', 'welcome@123')" | python manage.py shell
+cat /opt/djproject/djproject/apache-conf/appserver-insert-in-main.conf |sudo tee -a /etc/apache2/apache2.conf
+sudo cp /opt/djproject/simpleapp1/aodhbug/alarm_history.py  /usr/local/lib/python2.7/dist-packages/aodhclient/v2/alarm_history.py
+sudo service apache2 restart  
+
+
+
+

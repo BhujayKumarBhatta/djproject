@@ -80,7 +80,7 @@ def openstack_graph_func():
                    htime_local = htime+td
                    ht_str = htime_local.strftime('%Y-%m-%dT%H:%M:%S.%f')
                    ahistory_with_localtime.append({'timestamp': ht_str, 'detail': h['detail']})
-               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory_with_localtime }
+               adict = {'aid': aid, 'aname': aname, 'ahistory': ahistory_with_utc }
                alist.append(adict)
     except:
         pass
