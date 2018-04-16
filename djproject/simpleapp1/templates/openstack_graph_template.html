@@ -73,7 +73,7 @@ input {width:50;color:blue;font-size:8pt;width:60px}
 		</figure>
                      <script>
                         {% for a in alist %}
-                                {% if 'high'  in a.aname %}
+                                {% if 'low'  in a.aname %}
                                         {% if 'alarm' in  a.ahistory.0.detail %}
                                                 document.getElementById('cpulow').src="/static/simpleapp1/pics/pic_bulbon.gif";
                                         {% endif %}
