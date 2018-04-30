@@ -1,0 +1,412 @@
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ tail -f stderr
+18/04/30 11:32:44 INFO storage.BlockManagerMasterActor: Registering block manager sparkcluster-1-sparkm1-0.novalocal:39904 with 267.3 MB RAM, BlockManagerId(<driver>, sparkcluster-1-sparkm1-0.novalocal, 39904)
+18/04/30 11:32:44 INFO storage.BlockManagerMaster: Registered BlockManager
+18/04/30 11:32:44 INFO cluster.SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+18/04/30 11:32:44 INFO storage.MemoryStore: ensureFreeSpace(236271) called with curMem=0, maxMem=280248975
+18/04/30 11:32:44 INFO storage.MemoryStore: Block broadcast_0 stored as values in memory (estimated size 230.7 KB, free 267.0 MB)
+18/04/30 11:32:44 INFO storage.MemoryStore: ensureFreeSpace(33173) called with curMem=236271, maxMem=280248975
+18/04/30 11:32:44 INFO storage.MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 32.4 KB, free 267.0 MB)
+18/04/30 11:32:44 INFO storage.BlockManagerInfo: Added broadcast_0_piece0 in memory on sparkcluster-1-sparkm1-0.novalocal:39904 (size: 32.4 KB, free: 267.2 MB)
+18/04/30 11:32:44 INFO storage.BlockManagerMaster: Updated info of block broadcast_0_piece0
+18/04/30 11:32:44 INFO spark.SparkContext: Created broadcast 0 from textFile at SparkWordCount.scala:30
+Exception in thread "main" javax.net.ssl.SSLHandshakeException: POST https://10.172.124.14:5000/v3/auth/tokens/ failed on exception: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+        at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:57)
+        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+        at java.lang.reflect.Constructor.newInstance(Constructor.java:526)
+        at org.apache.hadoop.fs.swift.http.ExceptionDiags.wrapWithMessage(ExceptionDiags.java:90)
+        at org.apache.hadoop.fs.swift.http.ExceptionDiags.wrapException(ExceptionDiags.java:76)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.perform(SwiftRestClient.java:1390)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.authenticate(SwiftRestClient.java:1080)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.authIfNeeded(SwiftRestClient.java:1299)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.preRemoteCommand(SwiftRestClient.java:1315)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.headRequest(SwiftRestClient.java:1015)
+        at org.apache.hadoop.fs.swift.snative.SwiftNativeFileSystemStore.stat(SwiftNativeFileSystemStore.java:257)
+        at org.apache.hadoop.fs.swift.snative.SwiftNativeFileSystemStore.getObjectMetadata(SwiftNativeFileSystemStore.java:212)
+        at org.apache.hadoop.fs.swift.snative.SwiftNativeFileSystemStore.getObjectMetadata(SwiftNativeFileSystemStore.java:181)
+        at org.apache.hadoop.fs.swift.snative.SwiftNativeFileSystem.getFileStatus(SwiftNativeFileSystem.java:173)
+        at org.apache.hadoop.fs.Globber.getFileStatus(Globber.java:57)
+        at org.apache.hadoop.fs.Globber.glob(Globber.java:248)
+        at org.apache.hadoop.fs.FileSystem.globStatus(FileSystem.java:1642)
+        at org.apache.hadoop.mapred.FileInputFormat.singleThreadedListStatus(FileInputFormat.java:257)
+        at org.apache.hadoop.mapred.FileInputFormat.listStatus(FileInputFormat.java:228)
+        at org.apache.hadoop.mapred.FileInputFormat.getSplits(FileInputFormat.java:304)
+        at org.apache.spark.rdd.HadoopRDD.getPartitions(HadoopRDD.scala:203)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)
+        at scala.Option.getOrElse(Option.scala:120)
+        at org.apache.spark.rdd.RDD.partitions(RDD.scala:217)
+        at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:32)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)
+        at scala.Option.getOrElse(Option.scala:120)
+        at org.apache.spark.rdd.RDD.partitions(RDD.scala:217)
+        at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:32)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)
+        at scala.Option.getOrElse(Option.scala:120)
+        at org.apache.spark.rdd.RDD.partitions(RDD.scala:217)
+        at org.apache.spark.rdd.MapPartitionsRDD.getPartitions(MapPartitionsRDD.scala:32)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:219)
+        at org.apache.spark.rdd.RDD$$anonfun$partitions$2.apply(RDD.scala:217)
+        at scala.Option.getOrElse(Option.scala:120)
+        at org.apache.spark.rdd.RDD.partitions(RDD.scala:217)
+        at org.apache.spark.Partitioner$.defaultPartitioner(Partitioner.scala:65)
+        at org.apache.spark.rdd.PairRDDFunctions.reduceByKey(PairRDDFunctions.scala:284)
+        at sahara.edp.spark.SparkWordCount$.main(SparkWordCount.scala:33)
+        at sahara.edp.spark.SparkWordCount.main(SparkWordCount.scala)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:606)
+        at org.openstack.sahara.edp.SparkWrapper.main(SparkWrapper.java:20)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:606)
+        at org.apache.spark.deploy.SparkSubmit$.org$apache$spark$deploy$SparkSubmit$$runMain(SparkSubmit.scala:569)
+        at org.apache.spark.deploy.SparkSubmit$.doRunMain$1(SparkSubmit.scala:166)
+        at org.apache.spark.deploy.SparkSubmit$.submit(SparkSubmit.scala:189)
+        at org.apache.spark.deploy.SparkSubmit$.main(SparkSubmit.scala:110)
+        at org.apache.spark.deploy.SparkSubmit.main(SparkSubmit.scala)
+Caused by: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.ssl.Alerts.getSSLException(Alerts.java:192)
+        at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1904)
+        at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:279)
+        at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:273)
+        at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1446)
+        at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:209)
+        at sun.security.ssl.Handshaker.processLoop(Handshaker.java:901)
+        at sun.security.ssl.Handshaker.process_record(Handshaker.java:837)
+        at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1023)
+        at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1332)
+        at sun.security.ssl.SSLSocketImpl.writeRecord(SSLSocketImpl.java:709)
+        at sun.security.ssl.AppOutputStream.write(AppOutputStream.java:122)
+        at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)
+        at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:140)
+        at org.apache.commons.httpclient.methods.StringRequestEntity.writeRequest(StringRequestEntity.java:146)
+        at org.apache.commons.httpclient.methods.EntityEnclosingMethod.writeRequestBody(EntityEnclosingMethod.java:499)
+        at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2114)
+        at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+        at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+        at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+        at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+        at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.execWithDebugOutput(SwiftRestClient.java:1729)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.exec(SwiftRestClient.java:1668)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.perform(SwiftRestClient.java:1387)
+        ... 52 more
+Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:385)
+        at sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:292)
+        at sun.security.validator.Validator.validate(Validator.java:260)
+        at sun.security.ssl.X509TrustManagerImpl.validate(X509TrustManagerImpl.java:326)
+        at sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:231)
+        at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:126)
+        at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1428)
+        ... 72 more
+Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:196)
+        at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:268)
+        at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:380)
+        ... 78 more
+18/04/30 11:32:48 INFO cluster.SparkDeploySchedulerBackend: Registered executor: Actor[akka.tcp://sparkExecutor@sparkcluster-1-sparks1-0.novalocal:55777/user/Executor#-94550530] with ID 0
+^C
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ tail -f stdout
+^C
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ tail -f stderr
+        at sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:231)
+        at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:126)
+        at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1428)
+        ... 72 more
+Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:196)
+        at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:268)
+        at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:380)
+        ... 78 more
+18/04/30 11:32:48 INFO cluster.SparkDeploySchedulerBackend: Registered executor: Actor[akka.tcp://sparkExecutor@sparkcluster-1-sparks1-0.novalocal:55777/user/Executor#-94550530] with ID 0
+^C
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ view  stderr
+        at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1904)
+        at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:279)
+        at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:273)
+        at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1446)
+        at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:209)
+        at sun.security.ssl.Handshaker.processLoop(Handshaker.java:901)
+        at sun.security.ssl.Handshaker.process_record(Handshaker.java:837)
+        at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1023)
+        at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1332)
+        at sun.security.ssl.SSLSocketImpl.writeRecord(SSLSocketImpl.java:709)
+        at sun.security.ssl.AppOutputStream.write(AppOutputStream.java:122)
+        at java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:82)
+        at java.io.BufferedOutputStream.flush(BufferedOutputStream.java:140)
+        at org.apache.commons.httpclient.methods.StringRequestEntity.writeRequest(StringRequestEntity.java:146)
+        at org.apache.commons.httpclient.methods.EntityEnclosingMethod.writeRequestBody(EntityEnclosingMethod.java:499)
+        at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2114)
+        at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+        at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+        at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+        at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+        at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:323)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.execWithDebugOutput(SwiftRestClient.java:1729)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.exec(SwiftRestClient.java:1668)
+        at org.apache.hadoop.fs.swift.http.SwiftRestClient.perform(SwiftRestClient.java:1387)
+        ... 52 more
+Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:385)
+        at sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:292)
+        at sun.security.validator.Validator.validate(Validator.java:260)
+        at sun.security.ssl.X509TrustManagerImpl.validate(X509TrustManagerImpl.java:326)
+        at sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:231)
+        at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:126)
+        at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1428)
+        ... 72 more
+Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+        at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:196)
+        at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:268)
+        at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:380)
+        ... 78 more
+18/04/30 11:32:48 INFO cluster.SparkDeploySchedulerBackend: Registered executor: Actor[akka.tcp://sparkExecutor@sparkcluster-1-sparks1-0.novalocal:55777/user/Executor#-94550530] with ID 0
+
+
+
+
+
+
+
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ sudo find / -name cacerts -print
+/etc/default/cacerts
+/etc/ssl/certs/java/cacerts
+/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts
+
+
+keytool -list -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts
+
+
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ openssl s_client -connect 10.172.124.14:443 -showcerts
+
+CONNECTED(00000003)
+depth=0 C = IN, ST = Karnataka, L = Bangalore, O = ITC, CN = 10.172.100.14, subjectAltName = IP.1=10.172.124.14
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 C = IN, ST = Karnataka, L = Bangalore, O = ITC, CN = 10.172.100.14, subjectAltName = IP.1=10.172.124.14
+verify return:1
+---
+Certificate chain
+ 0 s:/C=IN/ST=Karnataka/L=Bangalore/O=ITC/CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+   i:/C=IN/ST=Karnataka/L=Bangalore/O=ITC/CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+-----BEGIN CERTIFICATE-----
+MIIDwzCCAqugAwIBAgIJAOxqoipRQVMUMA0GCSqGSIb3DQEBCwUAMHgxCzAJBgNV
+BAYTAklOMRIwEAYDVQQIDAlLYXJuYXRha2ExEjAQBgNVBAcMCUJhbmdhbG9yZTEM
+MAoGA1UECgwDSVRDMRYwFAYDVQQDDA0xMC4xNzIuMTAwLjE0MRswGQYDVR0RDBJJ
+UC4xPTEwLjE3Mi4xMjQuMTQwHhcNMTgwMzE5MDY1OTA4WhcNMjgwMzE2MDY1OTA4
+WjB4MQswCQYDVQQGEwJJTjESMBAGA1UECAwJS2FybmF0YWthMRIwEAYDVQQHDAlC
+YW5nYWxvcmUxDDAKBgNVBAoMA0lUQzEWMBQGA1UEAwwNMTAuMTcyLjEwMC4xNDEb
+MBkGA1UdEQwSSVAuMT0xMC4xNzIuMTI0LjE0MIIBIjANBgkqhkiG9w0BAQEFAAOC
+AQ8AMIIBCgKCAQEA2jWM4or1ZRUbnJvf749rusSeidSqR4lJ0QZsmQTiAnwNJJ0L
+kGITaU+nql7/Ua4myqhLAhJKsGQ74zXzDna47RqxV/b3JaUyqrO3N6tcBNYVxLhJ
+6LQEyY8tXfrZGCvPiuFCS8qZk2lfgp7HRUkqbMURAmHRRwG6MNIe3M1HtlfsfZQb
+ylFs2mGtp/W8pyITNStBuH3Q1U36XJp7qpyWhw3H7DsYr+Q6FDp7nUENkdGjW+Gk
+E4W3Leqzowg3bawrPtxX1TDEH5/i2YY09xNeIARGGSK1G+6PD3xdUzis02mHrwO7
+0upIPSwlOxHV0TU0cYcYbsbKnf+Ks1KoSF0ndQIDAQABo1AwTjAdBgNVHQ4EFgQU
+sgOGcodGH+hSrUOPaO2QU21e3TQwHwYDVR0jBBgwFoAUsgOGcodGH+hSrUOPaO2Q
+U21e3TQwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOCAQEAOY2xpd6EvmgU
+w/DObRYAjKloosoF5e/1reFXrEbfZXzFaeMCvIcBwwiN5rPdcsnDrl4Db9bZ1Iu6
+BiN0h1Ajuhy1evEawa0yj39I+mLuT7r8U8b+mvOKElEb2qZg0LMUPd0t7QptZQ2Y
+Az2lbzQkCRljZKX3sh7rkH7u+f0Qlj0PUwJlPaeuzVOHD1rt0fwl0Rk4HPGKo//X
+77UVT1sxdSrsTEUoFVEg5l/RvWQPjIzNdUcjVwFEKSQufXraxK9AOu3W4QYGSiUS
+RmDGOWmgFq1PjxbKJHlkOjvzKnDxD8s3m4YOo2lQaOrTvPVEwSF1q135PTOTULTV
+OIYoEmEVgw==
+-----END CERTIFICATE-----
+---
+Server certificate
+subject=/C=IN/ST=Karnataka/L=Bangalore/O=ITC/CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+issuer=/C=IN/ST=Karnataka/L=Bangalore/O=ITC/CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+---
+No client certificate CA names sent
+---
+SSL handshake has read 1626 bytes and written 421 bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES256-GCM-SHA384
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES256-GCM-SHA384
+    Session-ID: B6351B04A9A3C8E5802177F85609D071E6B50BB08447726F5320E789D19D8A49
+    Session-ID-ctx:
+    Master-Key: 1ABA7BECCA0EDCE2DB2164C31106F54769C1852D87C17CC3AD77111D7713D1A59F2799988DAF4F73C7146E954C41377A
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - b3 cf df 1f 44 13 c3 4c-f4 86 cd 44 23 c4 ea a1   ....D..L...D#...
+    0010 - 52 07 b4 e7 0e ca 96 f1-9a 00 3c fb 59 d9 2e 96   R.........<.Y...
+    0020 - 02 02 bc b4 41 2a c9 3a-89 c4 e3 87 56 4a d3 f4   ....A*.:....VJ..
+    0030 - 07 c8 87 53 42 75 f0 96-ff e4 1a ce 91 21 df a7   ...SBu.......!..
+    0040 - ec a1 a6 c6 5a 5b 21 84-f6 e0 98 ab 7c 2e 19 a9   ....Z[!.....|...
+    0050 - 2b 8a fb 3d 49 ae 2b 24-b5 fb e7 1e fc a6 c2 4a   +..=I.+$.......J
+    0060 - 82 f1 09 46 86 53 98 02-db 3f 8d 75 65 33 05 07   ...F.S...?.ue3..
+    0070 - 7d 2a 8a 93 8a 43 59 7e-ed 34 b7 c3 2a 14 51 67   }*...CY~.4..*.Qg
+    0080 - 0b a2 c0 4f 7c ab 88 1c-4f 48 ca 42 a5 90 a7 d5   ...O|...OH.B....
+    0090 - 0b 70 9b 03 e9 e7 38 e1-50 50 df 8d 7e 71 32 a9   .p....8.PP..~q2.
+
+    Start Time: 1525093570
+    Timeout   : 300 (sec)
+    Verify return code: 18 (self signed certificate)
+---
+HTTP/1.0 408 Request Time-out
+Cache-Control: no-cache
+Connection: close
+Content-Type: text/html
+
+<html><body><h1>408 Request Time-out</h1>
+Your browser didn't send a complete request in time.
+</body></html>
+closed
+
+
+#to download the cert 
+openssl s_client -connect 10.172.124.14:443 -showcerts </dev/null 2>/dev/null|openssl x509 -outform PEM >itcopenstack.pem
+
+
+#to use the certificate
+ wget https://10.172.124.14:5000/v3/auth/tokens/ --ca-certificate=itcopenstack.pem
+
+
+--2018-04-30 13:12:32--  https://10.172.124.14:5000/v3/auth/tokens/
+Connecting to 10.172.124.14:5000... connected.
+    ERROR: certificate common name '10.172.100.14' doesn't match requested host name '10.172.124.14'.
+To connect to 10.172.124.14 insecurely, use `--no-check-certificate'.
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ openssl x509 -inform PEM -in itcopenstack.pem  -text -out itcopenstack_certdata
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 17035606843117884180 (0xec6aa22a51415314)
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=IN, ST=Karnataka, L=Bangalore, O=ITC, CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+        Validity
+            Not Before: Mar 19 06:59:08 2018 GMT
+            Not After : Mar 16 06:59:08 2028 GMT
+        Subject: C=IN, ST=Karnataka, L=Bangalore, O=ITC, CN=10.172.100.14/subjectAltName=IP.1=10.172.124.14
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:da:35:8c:e2:8a:f5:65:15:1b:9c:9b:df:ef:8f:
+                    6b:ba:c4:9e:89:d4:aa:47:89:49:d1:06:6c:99:04:
+                    e2:02:7c:0d:24:9d:0b:90:62:13:69:4f:a7:aa:5e:
+                    ff:51:ae:26:ca:a8:4b:02:12:4a:b0:64:3b:e3:35:
+                    f3:0e:76:b8:ed:1a:b1:57:f6:f7:25:a5:32:aa:b3:
+                    b7:37:ab:5c:04:d6:15:c4:b8:49:e8:b4:04:c9:8f:
+                    2d:5d:fa:d9:18:2b:cf:8a:e1:42:4b:ca:99:93:69:
+                    5f:82:9e:c7:45:49:2a:6c:c5:11:02:61:d1:47:01:
+                    ba:30:d2:1e:dc:cd:47:b6:57:ec:7d:94:1b:ca:51:
+                    6c:da:61:ad:a7:f5:bc:a7:22:13:35:2b:41:b8:7d:
+                    d0:d5:4d:fa:5c:9a:7b:aa:9c:96:87:0d:c7:ec:3b:
+                    18:af:e4:3a:14:3a:7b:9d:41:0d:91:d1:a3:5b:e1:
+                    a4:13:85:b7:2d:ea:b3:a3:08:37:6d:ac:2b:3e:dc:
+                    57:d5:30:c4:1f:9f:e2:d9:86:34:f7:13:5e:20:04:
+                    46:19:22:b5:1b:ee:8f:0f:7c:5d:53:38:ac:d3:69:
+                    87:af:03:bb:d2:ea:48:3d:2c:25:3b:11:d5:d1:35:
+                    34:71:87:18:6e:c6:ca:9d:ff:8a:b3:52:a8:48:5d:
+                    27:75
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Subject Key Identifier:
+                B2:03:86:72:87:46:1F:E8:52:AD:43:8F:68:ED:90:53:6D:5E:DD:34
+            X509v3 Authority Key Identifier:
+                keyid:B2:03:86:72:87:46:1F:E8:52:AD:43:8F:68:ED:90:53:6D:5E:DD:34
+
+            X509v3 Basic Constraints:
+                CA:TRUE
+    Signature Algorithm: sha256WithRSAEncryption
+         39:8d:b1:a5:de:84:be:68:14:c3:f0:ce:6d:16:00:8c:a9:68:
+         a2:ca:05:e5:ef:f5:ad:e1:57:ac:46:df:65:7c:c5:69:e3:02:
+         bc:87:01:c3:08:8d:e6:b3:dd:72:c9:c3:ae:5e:03:6f:d6:d9:
+         d4:8b:ba:06:23:74:87:50:23:ba:1c:b5:7a:f1:1a:c1:ad:32:
+         8f:7f:48:fa:62:ee:4f:ba:fc:53:c6:fe:9a:f3:8a:12:51:1b:
+         da:a6:60:d0:b3:14:3d:dd:2d:ed:0a:6d:65:0d:98:03:3d:a5:
+         6f:34:24:09:19:63:64:a5:f7:b2:1e:eb:90:7e:ee:f9:fd:10:
+         96:3d:0f:53:02:65:3d:a7:ae:cd:53:87:0f:5a:ed:d1:fc:25:
+         d1:19:38:1c:f1:8a:a3:ff:d7:ef:b5:15:4f:5b:31:75:2a:ec:
+         4c:45:28:15:51:20:e6:5f:d1:bd:64:0f:8c:8c:cd:75:47:23:
+         57:01:44:29:24:2e:7d:7a:da:c4:af:40:3a:ed:d6:e1:06:06:
+         4a:25:12:46:60:c6:39:69:a0:16:ad:4f:8f:16:ca:24:79:64:
+         3a:3b:f3:2a:70:f1:0f:cb:37:9b:86:0e:a3:69:50:68:ea:d3:
+         bc:f5:44:c1:21:75:ab:5d:f9:3d:33:93:50:b4:d5:38:86:28:
+         12:61:15:83
+
+
+#convert the PEM file to der file 
+openssl x509 -inform PEM -in itcopenstack.pem   -out itcopenstack.der -outform DER
+
+# import the certificate to JRE   , using password = changeit
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$ sudo keytool -import -alias itcopenstack -keystore /usr/lib/jvm/java-7-openjdk-amd64/jre/lib/security/cacerts -file itcopenstack.der
+Enter keystore password:
+Owner: OID.2.5.29.17="IP.1=10.172.124.14", CN=10.172.100.14, O=ITC, L=Bangalore, ST=Karnataka, C=IN
+Issuer: OID.2.5.29.17="IP.1=10.172.124.14", CN=10.172.100.14, O=ITC, L=Bangalore, ST=Karnataka, C=IN
+Serial number: ec6aa22a51415314
+Valid from: Mon Mar 19 06:59:08 UTC 2018 until: Thu Mar 16 06:59:08 UTC 2028
+Certificate fingerprints:
+         MD5:  0E:F9:86:E3:22:83:E2:4C:15:58:9A:67:BA:22:06:DD
+         SHA1: 8F:2E:F8:C5:10:BB:60:98:0D:B3:C6:F1:A5:93:83:51:BF:F3:8B:52
+         SHA256: E3:51:E9:CB:69:EC:3D:2A:0C:03:9B:5A:57:3F:9C:4B:1D:CA:A6:6E:B3:2E:38:1F:59:3C:D6:ED:15:44:4E:CB
+         Signature algorithm name: SHA256withRSA
+         Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.35 Criticality=false
+AuthorityKeyIdentifier [
+KeyIdentifier [
+0000: B2 03 86 72 87 46 1F E8   52 AD 43 8F 68 ED 90 53  ...r.F..R.C.h..S
+0010: 6D 5E DD 34                                        m^.4
+]
+]
+
+#2: ObjectId: 2.5.29.19 Criticality=false
+BasicConstraints:[
+  CA:true
+  PathLen:2147483647
+]
+
+#3: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: B2 03 86 72 87 46 1F E8   52 AD 43 8F 68 ED 90 53  ...r.F..R.C.h..S
+0010: 6D 5E DD 34                                        m^.4
+]
+]
+
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+ubuntu@sparkcluster-1-sparkm1-0:/tmp/spark-edp/sparkexamplejob/d7999b8c-ec46-4cff-bd36-996374a4241e$
+
+
+
+After this the above error for ssl was gone , new error 
+
+Exception in thread "main" org.apache.hadoop.mapred.InvalidInputException: Input path does not exist: hdfs://sparkcluster-1-sparkm1-0:8020/user/ubuntu/spark-input-ds
+
+
+#changed the argument in the job as 
+
+swift://spark/inputdata/sample_input.txt
+
+#Now the error is time out 
+
+
+18/04/30 14:26:25 INFO storage.BlockManagerMasterActor: Registering block manager sparkcluster-1-sparks1-0.novalocal:60356 with 267.3 MB RAM, BlockManagerId(0, sparkcluster-1-sparks1-0.novalocal, 60356)
+18/04/30 14:27:13 WARN httpclient.HttpMethodBase: Going to buffer response body of large or unknown size. Using getResponseBodyAsStream instead is recommended.
+Exception in thread "main" Invalid Response: Method POST on https://10.172.124.14:5000/v3/auth/tokens/ failed, status code: 504, status line: HTTP/1.0 504 Gateway Time-out  POST https://10.172.124.14:5000/v3/auth/tokens/ => 504 : <html><body><h1>504 Gateway Time-out</h1>
+The server didn't respond in time.
+</body></html>
+
+
+
+
